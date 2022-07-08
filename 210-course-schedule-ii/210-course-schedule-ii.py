@@ -1,34 +1,35 @@
 class Solution:
     def findOrder(self, numCourses: int, prerequisites: List[List[int]]) -> List[int]:
-        preMap = defaultdict(list)
-        c = 0
-        cycle = set()
-        visited = set()
-        output = []
-        for i in range(len(prerequisites)):
-            preMap[prerequisites[i][c]].append(prerequisites[i][c+1])
+        graph = {}
+        indegree = {}
+        q = deque()
+        ans = []
         
-        def dfs(i):
-            if i in cycle:
-                return False
-            if i in visited:
-                return True
-            cycle.add(i)
-            for x in preMap[i]:
-                if not dfs(x):
-                    return False
-            #if all the children pass and no false
-            
-            cycle.remove(i)
-            visited.add(i)
-            output.append(i)
-            return True
-            
         for i in range(numCourses):
+            graph[i] = []
+            indegree[i] = 0
             
-            if not dfs(i): # from the children is there any that return false
-                return []
-        return output
+        temp = prerequisites
+        for x in temp:
+            graph[x[0]].append(x[1])
+            indegree[x[1]] += 1 
+            
+        for a,b in indegree.items():
+            if b == 0:
+                q.append(a)
+            
+        while q:
+            s = q.popleft()
+            ans.append(s)
+            for v in graph[s]:
+                indegree[v] -= 1 
+                if indegree[v] == 0:
+                    q.append(v)
+                    
+        if len(ans) == numCourses: # Attention
+            return ans[::-1]
+        else:
+            return []
             
             
         
