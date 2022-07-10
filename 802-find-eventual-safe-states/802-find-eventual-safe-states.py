@@ -1,31 +1,30 @@
 class Solution:
     def eventualSafeNodes(self, graph: List[List[int]]) -> List[int]:
-        grid = {}
-        visited = set()
-        seen = set()
-        
+        matrix = {}
+        indegree = {}
+        s = deque()
+        ans = []
         for i in range(len(graph)):
-            grid[i] = []   # not grid[i].append([])
+            matrix[i] = []
+            indegree[i] = 0
             
             
         for i in range(len(graph)):
             for j in graph[i]:
-                grid[i].append(j)
-        print(grid)
-        def dfs(i):
-            if i in visited:
-                return False
-            if i in seen:
-                return True
-            visited.add(i)
-            for j in graph[i]:
-                if not dfs(j):
-                    return 
-            visited.remove(i)
-            seen.add(i)
-            return seen
+                matrix[j].append(i)
+                indegree[i] += 1
         
-        for i in range(len(graph)):
-            dfs(i)
-                
-        return sorted(seen)
+        
+        
+        for i, j in indegree.items():
+            if j == 0:
+                s.append(i)
+    
+        while s:
+            a = s.popleft()
+            ans.append(a)
+            for i in matrix[a]:
+                indegree[i] -= 1
+                if indegree[i] == 0:
+                    s.append(i)
+        return sorted(ans)
