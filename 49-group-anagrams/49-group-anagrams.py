@@ -11,10 +11,15 @@ class Solution:
         #             ans.append([a])
         #             diction[a] = y
         #     print()
-        hashmap = defaultdict(list)
+        res = defaultdict(list)
         for s in strs:
-            # keys can be strings, bcz they are immutable.
-            hashmap[str(sorted(s))].append(s) 
-        return hashmap.values()
-                
+            count = [0] * 26
+            
+            for c in s:
+                count[ord(c)-ord("a")] += 1
+            
+            res[tuple(count)].append(s)
+        
+        return res.values()
+                 
         
