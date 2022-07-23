@@ -3,24 +3,25 @@ class Solution:
         """
         Do not return anything, modify nums in-place instead.
         """
-        count = {}
-        for i in range(len(nums)):
-            if nums[i] in count:
-                count[nums[i]] += 1
-            else:
-                count[nums[i]] = 1
-        print(count)
-        def inplace(x,y):
-            for i in range(y):
-                nums[self.pos+i] = x
-            self.pos += i+1
-        self.pos = 0
-        if 0 in count:
-            inplace(0,count[0])
-        if 1 in count:
-            inplace(1,count[1])
-        if 2 in count:
-            inplace(2,count[2])
+        l, r = 0, len(nums) - 1
+        i = 0
+        
+        def swap (x,y):
+            temp = nums[x]
+            nums[x] = nums[y]
+            nums[y] = temp
+        
+        while i <= r:
+            if nums[i] == 0:
+                swap(i, l)
+                l += 1
+                # i -= 1
+            elif nums[i] == 2:
+                swap(i, r)
+                r -= 1
+                i -= 1
+            i += 1
+            
                 
        
                 
