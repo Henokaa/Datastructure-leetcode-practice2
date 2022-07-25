@@ -12,14 +12,14 @@ class Solution:
         #             diction[a] = y
         #     print()
         res = defaultdict(list)
-        for s in strs:
+        for i in strs:
             count = [0] * 26
-            
-            for c in s:
-                count[ord(c)-ord("a")] += 1
-            
-            res[tuple(count)].append(s)
-        
+            for j in i:
+                x = ord(j) - ord("a") 
+                count[x] += 1
+            res[tuple(count)].append(i)
         return res.values()
+    
+    # time complexity => 0(n * m * 26)
                  
         
