@@ -5,7 +5,10 @@ class Solution:
         for a in range(1, amount + 1):
             for c in coins:
                 if a - c >= 0:
-                    dp[a] = min(dp[a], 1 + dp[a - c])  # +1 for that specific coin
+                    if a - c == 0:
+                        dp[a] = min(dp[a], 1 + dp[a - c])  # +1 for that specific coin
+                    else:
+                        dp[a] = min(dp[a], dp[c] + dp[a - c])
         return dp[amount] if dp[amount] != amount + 1 else -1
     
     ''' TimeComplexity: o(amount * len(coins))
