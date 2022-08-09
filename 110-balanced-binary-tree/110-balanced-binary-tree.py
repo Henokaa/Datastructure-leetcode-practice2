@@ -6,6 +6,7 @@
 #         self.right = right
 class Solution:
     def isBalanced(self, root: Optional[TreeNode]) -> bool:
+        ''' wrote what happens if we don't say left == -1 in leetcode notes '''  
         if not root:
             return True
         def dfs(root):
@@ -13,10 +14,10 @@ class Solution:
                 return 0
             left = dfs(root.left)  
             right = dfs(root.right)
-            if abs(left - right) > 1:
-                self.isbal = False
+            if left == -1 or right == -1 or abs(left - right) > 1:
+                return -1
             return 1 + max(left, right)
-        self.isbal = True
-        dfs (root)
-        return self.isbal
+        if dfs(root) == -1:
+            return False
+        return True
         
