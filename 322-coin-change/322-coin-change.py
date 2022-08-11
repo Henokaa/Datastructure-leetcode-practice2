@@ -10,7 +10,7 @@ class Solution:
 
             shortest = float('inf')
             for i in range(len(coins)):
-                if coins[i] <= target and target - coins[i] >= 0:
+                if target - coins[i] >= 0:
                         shortest = min(shortest, dp(target - coins[i]) + 1)
             memo[target] = shortest
             return shortest
@@ -19,4 +19,3 @@ class Solution:
         if ans == float('inf'):
             return  -1
         return ans
-        
