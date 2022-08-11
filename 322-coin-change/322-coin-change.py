@@ -5,8 +5,7 @@ class Solution:
                 return memo[target]
             if target == 0:
                 return 0
-            if target < 0:
-                return  target
+            
 
             shortest = float('inf')
             for i in range(len(coins)):
