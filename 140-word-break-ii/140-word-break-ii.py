@@ -9,9 +9,8 @@ class Solution:
                 return 
             
             for word in wordDict:
-                path.append(word)
-                dp(cur + word , path.copy())
-                path.pop()
+                dp(cur + word , path + [word])
+                
             
         
         res = []
