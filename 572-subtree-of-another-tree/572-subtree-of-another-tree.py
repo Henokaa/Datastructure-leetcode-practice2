@@ -8,30 +8,29 @@ class Solution:
     def isSubtree(self, root: Optional[TreeNode], subRoot: Optional[TreeNode]) -> bool:
         if not subRoot and root:
             return True
-        if subRoot and not root:
+        if not root and subRoot:
             return False
-        if not subRoot and not root:
+        if not root and not subRoot:
+            return False
+        if root.val == subRoot.val:
+            self.dfs(root, subRoot)
+        if self.dfs(root, subRoot):
             return True
-        if self.helper(root, subRoot):
-            return True
-         #can't be if root.val == subRoot.val:
-         #              return self.helper(root, subRoot)
         left = self.isSubtree(root.left, subRoot)
         right = self.isSubtree(root.right, subRoot)
-        
         return left or right
-    
-    def helper(self, root, subroot):
-        if not root and not subroot:
+        
+    def dfs(self, root, subRoot):
+        if not root and not subRoot:
             return True
-        if not subroot or not root:
+        if not root or not subRoot:
             return False
-        if root.val != subroot.val:
+        if root.val != subRoot.val:
             return False
-        left = self.helper(root.left, subroot.left)
-        right = self.helper(root.right, subroot.right)
-        
+        left = self.dfs(root.left, subRoot.left)
+        right = self.dfs(root.right, subRoot.right)
+
         return left and right
-            
-                
-        
+    
+''' Time-complexity = o(s * r) because the values can be repeated then the childerens will be checked for every same node so approximate to this
+space-complexity = o(s + n) the biggest one o(s)'''
