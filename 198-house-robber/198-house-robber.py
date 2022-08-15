@@ -7,13 +7,16 @@ class Solution:
         
         dp = [None for x in range(len(nums)+1)]
         # base case
-        dp[len(nums)] = 0
-        dp[len(nums)-1] = nums[len(nums)-1]
+        b = 0
+        a = nums[len(nums)-1]
         
         for i in range(len(nums)-2, -1, -1):
-            dp[i] = max(dp[i+1], dp[i+2]+nums[i])
+            temp = max(a, b+nums[i])
+            b = a
+            a = temp
+            
         
-        return dp[0]
+        return a
     
 #     1,2,3,1
 #     1,2,4,4
