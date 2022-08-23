@@ -2,26 +2,31 @@ class Solution:
     def minReorder(self, n: int, connections: List[List[int]]) -> int:
         
         # adjacency list and the actual list
-        graph = defaultdict(set)
-        adjacent = defaultdict(set)
+        edges = {(a,b) for a, b in connections}
+        neighbors = { city: [] for city in range(n) }
         
-        for x,y in connections:
-            graph[x].add(y)
-            adjacent[x].add(y)
-            adjacent[y].add(x)
+        visit = set()
+        
+        changes = 0
+        for a, b in connections:
+            neighbors[a].append(b)
+            neighbors[b].append(a)
+        
+        def dfs(city):
             
-        que = deque()
-        que.append((0, -1))
-        res = 0
-        while que:
-            var, prev = que.pop()
-            for child in adjacent[var]:
-                if child == prev:
+            nonlocal edges, neighbors, visit, changes
+            
+            for neighbor in neighbors[city]:
+                if neighbor in visit:
                     continue
-                if var not in graph[child]:
-                    res += 1
-                que.append((child, var))
-                
-        return res
                     
+                    #check if this neighbors can reach city 0
+                if (neighbor, city) not in edges:
+                    changes += 1
+                visit.add(neighbor)
+                dfs(neighbor)
+        visit.add(0)
+        dfs(0)
+        return changes
+        
                     
