@@ -6,11 +6,10 @@ class Solution:
             if cur == s:
                 return True
             
-            if cur != s[:len(cur)]:
-                memo[cur] = False
-                return False
             
             for word in wordDict:
+                if cur+word != s[:len(cur+word)]:
+                    continue
                 if dp(cur + word):
                     return True
             
@@ -19,4 +18,3 @@ class Solution:
             
         memo = {}
         return dp("")
-        
