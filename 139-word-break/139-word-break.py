@@ -1,18 +1,18 @@
 class Solution:
     def wordBreak(self, s: str, wordDict: List[str]) -> bool:
-        
-        dp = [False] * (len(s)+1)
-        dp[len(s)] = True
-        
-        for i in range(len(s) - 1, -1, -1):
+        # brute force  0(n^2)
+        '''meaning from the word to the worddict for every word in s'''
+        def dp(i):
+            if i in memo:
+                return memo[i]
+            if i == len(s):
+                return True
             for w in wordDict:
-                if i + len(w) <= len(s) and s[i:i+len(w)] == w:
-                    dp[i]=dp[i+len(w)] # because there is a repetition in char its like + 1
-
-                if dp[i]: # if one become successful end
-                    break
-        return dp[0]
-                
-        # time complexity - 0(n*m*n) the last n for comparing
-        
-        
+                if i+len(w) <= len(s) and s[i:i+len(w)] == w:
+                    if dp(i+len(w)):
+                        return True
+            memo[i] = False
+            return False
+        memo = {}
+        return dp(0)
+    # time complexity - 0(n*m*n) the last n for comparing
