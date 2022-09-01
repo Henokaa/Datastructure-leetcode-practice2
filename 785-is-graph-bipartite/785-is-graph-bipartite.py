@@ -1,33 +1,31 @@
 class Solution:
     def isBipartite(self, graph: List[List[int]]) -> bool:
-        n = len(graph)
-        white = 0
-        red = 1
-        blue = 2
-        colors = [white] * n
+        nodes = defaultdict(list)
+        visited = {}
+        for i in range(len(graph)):
+            nodes[i].append(graph[i])
         
-        def goColor(start):
-            q = collections.deque()
-            colors[start] = red
-            q.append((red, start))
+        def biparte(x):
+            que = deque()
+            que.append((x, 1))
             
-            while len(q) > 0:
-                currentColor, x = q.popleft()
-                nextColor = (red if currentColor == blue else blue)
-                
-                for v in graph[x]:
-                    if colors[v] == white:
-                        colors[v] = nextColor
-                        q.append((nextColor, v))
-                    elif colors[v] != nextColor:
-                        return False
-                    
+            while que:
+                temp = que.pop()
+                visited[temp[0]] = temp[1]
+
+                for i in graph[temp[0]]:
+                    if i in visited:
+                        if temp[1] == visited[i]:
+                            return False
+                    else:
+                        color = 0 if temp[1] == 1 else 1
+                        que.append((i, color))
             return True
+            
         
-        
-        for x in range(n):
-            if colors[x] == white:
-                if not goColor(x):
+        for x in range(len(graph)):
+            if x not in visited:
+                if not biparte(x):
                     return False
         return True
-        
+            
