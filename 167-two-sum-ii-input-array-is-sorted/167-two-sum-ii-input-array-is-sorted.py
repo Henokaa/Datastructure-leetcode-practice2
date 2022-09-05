@@ -11,5 +11,5 @@ class Solution:
                 r += 1
         
 '''
-[2,7,11,15]
+submisson one more optimal interms of space complexity 0(1)
 '''
