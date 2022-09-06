@@ -1,18 +1,19 @@
 class Solution:
     def wordBreak(self, s: str, wordDict: List[str]) -> List[str]:
-        def dp(cur, path):
+        def dp(cur, ans):
+            
             if cur == s:
-                res.append(path)
-                return
-            
-            if cur != s[:len(cur)]:
+                res.append(ans)
                 return 
-            
-            for word in wordDict:
-                dp(cur + word , path + [word])
-                
-            
+            for words in wordDict:
+                if (cur + words) != s[:len(cur+words)]:
+                    continue
+                else:
+                    dp(cur + words, ans + [words])
+                    
+                    
         
-        res = []
+        res = [] 
         dp("", [])
+        
         return [' '.join(res[i]) for i in range(len(res))]
