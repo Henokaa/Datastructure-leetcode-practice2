@@ -12,15 +12,12 @@ class Solution:
                 return False
             left = prune(root.left)
             right = prune(root.right)
-            result = left or right or root.val
+            
             if not left:
                 root.left = None
             if not right:
                 root.right = None
-            if not result:
-                return False
-            else:
-                return True
+            return left or right or root.val
             
         res = prune(node)
         if not res:
