@@ -6,19 +6,23 @@
 #         self.right = right
 class Solution:
     def tree2str(self, root: Optional[TreeNode]) -> str:
-        s = ""
-        def strr(root):
-
+        self.s = ""
+        
+        def preorder(root):
             if not root:
-                return ""
-            if not root.left and root.right:
-                return "(" + str(root.val) + "()" + strr(root.right) + ")"
-
-            return "(" + str(root.val) + strr(root.left) + strr(root.right) + ")"
+                return
             
-        s = strr(root)
-        length = len(s)
-        
-        return s[1:length- 1]
-        
+            self.s += "("
+            self.s += str(root.val)
+            
+            if not root.left and root.right:
+                self.s += "()"
+                
+            preorder(root.left)
+            preorder(root.right)
+            
+            self.s += ")"
+        preorder(root)
+        length = len(self.s) 
+        return self.s[1: length - 1]
         
