@@ -10,17 +10,18 @@ class Solution:
         def prune(root):
             if not root:
                 return False
-            left = prune(root.left)
-            right = prune(root.right)
-            
-            if not left:
+            L = prune(root.left)
+            R = prune(root.right)
+            s = L or R or root.val
+            if not L:
                 root.left = None
-            if not right:
+            if not R:
                 root.right = None
-            return left or right or root.val
             
-        res = prune(node)
-        if not res:
+            return s
+        
+        if not prune(node):
             node = None
+        
         return node
         
