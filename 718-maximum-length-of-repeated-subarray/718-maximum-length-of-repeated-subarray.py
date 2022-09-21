@@ -3,12 +3,12 @@ class Solution:
         '''
         '''
         dp = [[0] * (len(nums2)+1) for i in range(len(nums1) + 1 )]
-        
+        ans = 0
         for i in range(len(nums1)):
             for j in range(len(nums2)):
                 
                 if nums1[i] == nums2[j]:
                     dp[i][j] = dp[i-1][j-1] + 1
-        
-        return max(max(row) for row in dp)
+                    ans = max(ans, dp[i][j])
+        return ans
             
