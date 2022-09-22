@@ -1,18 +1,17 @@
 class Solution:
     def kClosest(self, points: List[List[int]], k: int) -> List[List[int]]:
         '''
-        [[1,3, 10], [-2, 2, 8]]
-        (1, 8)       
+        Typical heap solution:	heapify costs O(n), heappop on k elements costs O(k * logn)	O(n + k * logn)
+This heap solution:	heappushpop on n elements costs O(n * logk)	O(n * logk) 
         '''
         heap = []
-        for i in range(len(points)):
-            x, y = points[i][0], points[i][1]
-            d = (x ** 2) + (y ** 2)
-            heap.append([d, i])
-        heapq.heapify(heap)
-        ans  = []
-        for i in range(k):
-            d, x = heapq.heappop(heap)
-            ans.append(points[x])
-        return ans
+        
+        for (x, y) in points:
+            dist = (x*x + y*y)
+            if len(heap) == k:
+                heapq.heappushpop(heap, (-dist, x, y))
+            else:
+                heapq.heappush(heap, (-dist, x, y))
+        
+        return [(x,y) for (dist,x, y) in heap]
         
