@@ -1,23 +1,18 @@
 class Solution:
     def kClosest(self, points: List[List[int]], k: int) -> List[List[int]]:
-        x = 0
-        count = {}
-        answer = []
+        '''
+        [[1,3, 10], [-2, 2, 8]]
+        (1, 8)       
+        '''
+        heap = []
         for i in range(len(points)):
-            for j in range(len(points[0])):
-                x += points[i][j] ** 2
-
-            count[i] = x
-            x = 0
-        
-        sortcount = sorted(count.items(), key = lambda x: x[1])
-        
-        for i in range(len(sortcount)):
-            if len(answer) == k:
-                return answer
-            answer.append(points[sortcount[i][0]])
-        return answer
-            
-    
-            
+            x, y = points[i][0], points[i][1]
+            d = (x ** 2) + (y ** 2)
+            heap.append([d, i])
+        heapq.heapify(heap)
+        ans  = []
+        for i in range(k):
+            d, x = heapq.heappop(heap)
+            ans.append(points[x])
+        return ans
         
