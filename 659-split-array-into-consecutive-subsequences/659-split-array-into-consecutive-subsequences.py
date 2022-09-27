@@ -16,17 +16,17 @@ class Solution:
         
         
         for x in nums:
-            if ones[x - 1] > 0:
+            if x- 1 in ones and ones[x - 1] > 0:
                 ones[x - 1] -= 1
                 twos[x] += 1
                 continue
             
-            if twos[x - 1] > 0:
+            if x- 1 in twos and twos[x - 1] > 0:
                 twos[x - 1] -= 1
                 threes[x] += 1
                 continue
             
-            if threes[x - 1] > 0:
+            if x - 1 in threes and threes[x - 1] > 0:
                 threes[x - 1] -= 1
                 threes[x] += 1
                 continue
