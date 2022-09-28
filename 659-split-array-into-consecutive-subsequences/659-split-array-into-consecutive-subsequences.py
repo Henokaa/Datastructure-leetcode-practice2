@@ -14,19 +14,19 @@ class Solution:
         twos = Counter()
         threes = Counter()
         
-        
+        print(ones, twos, threes)
         for x in nums:
-            if x- 1 in ones and ones[x - 1] > 0:
+            if ones[x - 1] > 0:
                 ones[x - 1] -= 1
                 twos[x] += 1
                 continue
             
-            if x- 1 in twos and twos[x - 1] > 0:
+            if twos[x - 1]>0:
                 twos[x - 1] -= 1
                 threes[x] += 1
                 continue
             
-            if x - 1 in threes and threes[x - 1] > 0:
+            if threes[x - 1] > 0:
                 threes[x - 1] -= 1
                 threes[x] += 1
                 continue
