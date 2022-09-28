@@ -7,23 +7,27 @@ class Employee:
         self.subordinates = subordinates
 """
 
+'''
+id : emp[0]
+'''
+
 class Solution:
     def getImportance(self, employees: List['Employee'], id: int) -> int:
         ''' id: childs'''
-        graph = defaultdict(list)
-        self.imp = 0
-        for i in range(len(employees)):
-            graph[employees[i].id] = employees[i] 
+        emps = {}
+        for emp in employees:
+            emps[emp.id] = {"imp": emp.importance, "subs": emp.subordinates}
         
-        def dfs(graph, i):
-            self.imp += graph[i].importance
-            
-            for j in graph[i].subordinates:
-                dfs(graph, j)
-            
+    
+    
         
-        dfs(graph, id)
-        return self.imp
+        def dfs(employee):
+            for sub in emps[employee]['subs']:
+                emps[employee]['imp'] += dfs(sub)
+            return emps[employee]['imp']
+                
+        return dfs(id)
+    
         
 
 
