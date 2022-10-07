@@ -1,26 +1,35 @@
 class Solution:
     def leastInterval(self, tasks: List[str], n: int) -> int:
         '''
-        Time-complexity - o(n) also if m idle time and if all element is 'A' 0(n * m)
-        i suggest o(nlogn) because we will pop every element
+        
         '''
+        heap1 = []
+        que = []
         count = Counter(tasks)
-        maxHeap = [-cnt for cnt in count.values()]
-        heapq.heapify(maxHeap)
-        
-        
-        time = 0 
-        q = deque()
-        
-        while maxHeap or q:
-            time += 1
-            if maxHeap:
-                cnt = -heapq.heappop(maxHeap) - 1
-                if cnt:
-                    q.append([-cnt, time + n])
-            if q and q[0][1] == time:
-                heapq.heappush(maxHeap, q.popleft()[0])
-        return time
     
+        for x,y in count.items():
+            heap1.append([-y, x])
+        heapq.heapify(heap1)
+        
+        ans = 0
+        while heap1:
+            i = 0
+            while i < n + 1:
+                if heap1 or que: 
+                    ans += 1
+                if heap1:
+                    times, element = heapq.heappop(heap1)
+                    times = times + 1
+                    if times != 0:
+                        que.append([times, element]) 
+                i += 1
+            for x, y in que:
+                if x == 0:
+                    continue
+                heapq.heappush(heap1, [x, y])
+            que = []
+        return ans
+    
+        
     
         
