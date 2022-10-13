@@ -55,7 +55,10 @@ class Solution:
             
             root = root.left
             if self.right != None:
-                return BST(root)
+                return BST(root) 
+            ''' There must be a return here otherwise this error
+                [1,null,2]
+                    1'''
             return root
         
         
