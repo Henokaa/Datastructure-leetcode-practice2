@@ -10,16 +10,13 @@ class Solution:
         if not root:
             root = self.node
         def dfs(root):
+            if not root:
+                return self.node
             if val > root.val:
-                if not root.right:
-                    root.right = self.node
-                    return
-                dfs(root.right)
-            if val < root.val:
-                if not root.left:
-                    root.left = self.node
-                    return
-                dfs(root.left)
+                root.right = dfs(root.right)
+            elif val < root.val:
+                root.left = dfs(root.left)
+            return root
                 
         dfs(root)
         return root        
