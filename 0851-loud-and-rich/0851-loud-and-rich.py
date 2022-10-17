@@ -1,21 +1,24 @@
 class Solution:
     def loudAndRich(self, richer: List[List[int]], quiet: List[int]) -> List[int]:
         graph = defaultdict(list)
-        answer = []
-        
-        for x,y in richer:
-            graph[y].append(x)
-        memo = {}
-        def dfs(x):
-            if (quiet[x],x) in memo:
-                return memo[(quiet[x],x)]
-            minn = (float('INF'), -1)
-            for child in graph[x]:
-                minn = min(minn, dfs(child)) 
-            memo[(quiet[x],x)] =  min(minn, (quiet[x], x))
-            
-            return memo[(quiet[x],x)] 
-        for i in range(len(quiet)):
-            answer.append(dfs(i)[1])
+        indegree = Counter()
+        queue = deque([])
+        answer = [node for node in range(len(quiet))]
+        for a, b in richer:
+            graph[a].append(b)
+            indegree[b] += 1
+        print(graph)
+        for node in range(len(quiet)):
+            if indegree[node] == 0:
+                queue.append(node)
+        while queue:
+            print(queue)
+            front = queue.popleft()
+            for child in graph[front]:
+                indegree[child] -= 1
+                if indegree[child] == 0:
+                    queue.append(child)
+                if quiet[answer[front]] < quiet[answer[child]]:
+                    answer[child] = answer[front]
         return answer
         
