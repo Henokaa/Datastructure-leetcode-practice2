@@ -1,18 +1,23 @@
 class Solution:
     def ladderLength(self, beginWord: str, endWord: str, wordList: List[str]) -> int:
         wordList = set(wordList)
-        queue = collections.deque([[beginWord, 1]])
-        while queue:
-            word, length = queue.popleft()
-            if word == endWord:
-                return length
-            for i in range(len(word)):
+        que = collections.deque([[beginWord, 1]])
+        graph = defaultdict(list)
+        # it's not wise to draw a graph
+        
+        while que:
+            tempword, level = que.popleft()
+            if tempword == endWord:
+                return level
+            for i in range(len(tempword)):
                 for c in 'abcdefghijklmnopqrstuvwxyz':
-                    next_word = word[:i] + c + word[i+1:]
-                    if next_word in wordList:
-                        wordList.remove(next_word)
-                        queue.append([next_word, length + 1])
+                    nextword = tempword[:i] + c + tempword[i+1:]
+                    if nextword in wordList:
+                        wordList.remove(nextword)  # very important otherwise TLE
+                        que.append((nextword, level + 1))
+                    
         return 0
+            
     
         # visit = set([beginWord])
         # q = deque([beginWord])
