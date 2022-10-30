@@ -3,25 +3,26 @@ class Solution:
         '''
         [-2,1,-3,4,-1,2,1,-5,4]
                            ^
-                ^
+        [-2,-1,-4,0,-1,1,2,-3,1]
+                  ^
         
         [-2,1,-3,4,-1,2,1,-5,4]
                     ^
                ^  
-        left - sum 0, l =r , add r, 
+        [5,4,-1,7,8]
+        [5,9,8,15,23]
+        
         '''
         
         r = 0
-        prefix = 0
-        mx = float('-INF')
+        total = 0
+        mn = float('inf')
+        ans = float('-inf')
         while r < len(nums):
-            prefix += nums[r]
-            mx = max(mx, prefix)
-            if prefix < 0:
-                prefix = 0
-            
+            total += nums[r]
+            if r >= 1:
+                mn = min(mn, total - nums[r])
+            ans = max(ans, total - mn, total)
             r += 1
-        
-        return mx
-            
+        return ans
         
