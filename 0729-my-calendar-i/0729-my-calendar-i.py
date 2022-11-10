@@ -1,26 +1,18 @@
 from sortedcontainers import SortedList
+'''
+[10, 20]
+
+'''
 class MyCalendar:
     def __init__(self):
-        self.s1 = SortedList()
-        
-        
+        self.calendar = SortedList()
 
     def book(self, start: int, end: int) -> bool:
-        end -= 1
-        index = self.s1.bisect_left((start, -1))
-
-        
-        if index < len(self.s1):
-            left, right = self.s1[index]
-            if left <= start <= right or left <= end <= right or start <= left <= end or start <= right <= end:
-                return False
-            
-        if index - 1 >= 0:
-            left, right = self.s1[index - 1]
-            if left <= start <= right or left <= end <= right or start <= left <= end or start <= right <= end:
-                return False
-            
-        self.s1.add((start, end))
+        idx = self.calendar.bisect_left((start, end))
+        # print(self.calendar, idx, (start, end))
+        if (idx > 0 and self.calendar[idx-1][1] > start) or (idx < len(self.calendar) and self.calendar[idx][0] < end):
+            return False
+        self.calendar.add((start, end))
         return True
 
 # Your MyCalendar object will be instantiated and called as such:
