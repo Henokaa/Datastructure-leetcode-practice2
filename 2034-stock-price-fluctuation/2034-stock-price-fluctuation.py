@@ -1,29 +1,40 @@
-from sortedcontainers import SortedList
 class StockPrice:
+
     def __init__(self):
-        self.prices = {}
-        self.s1 = SortedList()
-        self.latest = (None, None)
+        self.timestamps = {}
+        self.max_time = 0
+        self.min_heap = []
+        self.max_heap = []
         
     def update(self, timestamp: int, price: int) -> None:
-        if timestamp in self.prices:
-            self.s1.remove(self.prices[timestamp])
+        self.timestamps[timestamp] = price
+        self.max_time = max(self.max_time, timestamp)
         
-        if self.latest[0] is None or timestamp >= self.latest[0]:
-            self.latest = (timestamp, price)
-        
-        self.s1.add(price)
-        self.prices[timestamp] = price
-        
+        heapq.heappush(self.min_heap, (price, timestamp))
+        heapq.heappush(self.max_heap, (-price, timestamp))
+
     def current(self) -> int:
-        return self.latest[1]
+        return self.timestamps[self.max_time]
 
     def maximum(self) -> int:
-        return self.s1[-1]
+        cur_price, timestamp = heapq.heappop(self.max_heap)
+        
+        while -cur_price != self.timestamps[timestamp]:
+            cur_price, timestamp = heapq.heappop(self.max_heap)
+        
+        heapq.heappush(self.max_heap, (cur_price, timestamp))
+        
+        return -cur_price
 
     def minimum(self) -> int:
-        return self.s1[0]
-
+        cur_price, timestamp = heapq.heappop(self.min_heap)
+        
+        while cur_price != self.timestamps[timestamp]:
+            cur_price, timestamp = heapq.heappop(self.min_heap)
+        
+        heapq.heappush(self.min_heap, (cur_price, timestamp))
+        
+        return cur_price
 
 # Your StockPrice object will be instantiated and called as such:
 # obj = StockPrice()
