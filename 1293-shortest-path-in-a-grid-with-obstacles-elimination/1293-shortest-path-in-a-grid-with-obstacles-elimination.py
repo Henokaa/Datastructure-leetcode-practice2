@@ -1,38 +1,55 @@
 class Solution:
-    def shortestPath(self, grid: List[List[int]], k: int) -> int:
+    def shortestPath(self, grid: List[List[int]], kmax: int) -> int:
         # bfs
-        que = deque()
-        visited = set()
-        directions = [[0,1],[1,0],[0,-1],[-1,0]]
-        inbound = lambda r,c: 0<=r<len(grid) and 0<=c<len(grid[0])
-        if grid[0][0] == 1 or grid[len(grid)-1][len(grid[0])-1]:
-            return -1
-        if len(grid) == 1 and len(grid[0]) == 1 and grid[0][0] == 0:
-            return 0
+        R = len(grid)
+        C = len(grid[0])
+        
+        best = {}
+        q = []
+        nk = 0
+        if grid[0][0] == 1:
+            nk += 1
+        
+        best[(0,0,nk)] = 0 
+        heapq.heappush(q, (0,0,0, nk))
+        directions = [(-1,0), (0,-1), (1,0), (0, 1)]
+        
+        while len(q) > 0:
+            # print(q)
+            steps, x, y, k = heapq.heappop(q)
             
-        que.append((0,0,0))
-        visited.add((0,0, 0))
-        level = 0
-        while que:
-            length = len(que)
-            for i in range(length):
-                a, b, blocks = que.popleft()
-                if a == len(grid)-1 and b == len(grid[0])-1:
-                        return level
-                for x,y in directions:
-                    dr = a + x
-                    dc = b + y
+            if x == R - 1 and y == C - 1:
+                return steps
+            
+            if best[(x,y,k)] > steps:
+                continue
+            
+            for dx, dy in directions:
+                nx, ny = x + dx, y + dy
                 
-                    if inbound(dr,dc) and (dr,dc, blocks + 1) not in visited and grid[dr][dc] == 1 and blocks + 1 <= k:
-                        que.append((dr,dc, blocks + 1))
-                        visited.add((dr,dc, blocks + 1))
-                    elif inbound(dr,dc) and (dr,dc, blocks) not in visited and grid[dr][dc] == 0:
-                        que.append((dr,dc, blocks))
-                        visited.add((dr,dc, blocks))
+                if 0 <= nx < R and 0 <= ny < C:
+                    nk = k
                     
-            level += 1
-            
+                    if grid[nx][ny] == 1:
+                        nk += 1
+                        
+                    if nk > kmax:
+                        continue
+                        
+                    key = (nx, ny, nk)
+                    if key not in best or best[key] > steps + 1:
+                        best[key] = steps + 1
+                        heapq.heappush(q, (steps + 1, nx, ny, nk))
+                                          
         return -1
             
+        
+        
+        
+        
+        
+        
+                                       
+                                       
                         
                         
