@@ -21,8 +21,8 @@ class Solution:
             if x == R - 1 and y == C - 1:
                 return steps
             
-            if best[(x,y,k)] > steps:
-                continue
+            # if best[(x,y,k)] > steps:
+            #     continue
             
             for dx, dy in directions:
                 nx, ny = x + dx, y + dy
@@ -37,7 +37,7 @@ class Solution:
                         continue
                         
                     key = (nx, ny, nk)
-                    if key not in best or best[key] > steps + 1:
+                    if key not in best:
                         best[key] = steps + 1
                         heapq.heappush(q, (steps + 1, nx, ny, nk))
                                           
