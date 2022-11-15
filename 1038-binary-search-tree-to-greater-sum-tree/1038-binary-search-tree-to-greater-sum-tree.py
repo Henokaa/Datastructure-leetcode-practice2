@@ -10,11 +10,11 @@ class Solution:
             if not root:
                 return total
             
-            right = dfs(root.right, total) + root.val
-            root.val = right
+            right = dfs(root.right, total)
+            root.val = root.val + right
+            left = dfs(root.left, root.val)
             
-            return dfs(root.left, right)
-            
-        
+            return left
         dfs(root, 0)
         return root
+            
