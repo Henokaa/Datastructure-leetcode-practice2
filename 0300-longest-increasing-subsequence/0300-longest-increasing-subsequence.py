@@ -9,32 +9,25 @@ class Solution:
         '''
         this time complexity is - i * prev = nums.length * nums[i]
         '''
-        memo = {}
-        def dp(i):
+        length = len(nums)
+        dp = [0] * len(nums)
+        
+        dp[length-1] = 1
+        ans = 1
+        for i in range(len(nums)-2, -1, -1):
+            temp = 1
+            for j in range(i + 1, length):
+                # print(i,j)
+                if nums[i] < nums[j]:
+                    temp = max(temp, 1 + dp[j])
+            dp[i]= temp 
+            ans = max(temp, ans)
+        # print(dp)
+        return ans
+                
             
-            if i in memo:
-                return memo[i]
-            if i >= len(nums):
-                return 0
+                
             
-            value = 0
-            temp1 = 0
-            for x in range(i, len(nums)):
-                if nums[x] > nums[i]:
-                    value = 1 + dp(x)
-                temp1 = max(temp1, value)
-            
-            memo[i] = temp1
-            return temp1
-            
-        z = float('-inf')
-        for i in range(len(nums)):
-            temp = dp(i)
-            z = max(z, temp + 1)
-            # print(temp)
-            
-        print(memo)
-        return z
     
         
 
