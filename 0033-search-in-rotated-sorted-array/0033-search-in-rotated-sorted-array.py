@@ -11,14 +11,14 @@ class Solution:
             mid = l + (r - l)//2
             if nums[mid] == target:
                 return mid
-            print(mid)
+            # print(mid)
             if nums[0] <= nums[mid]:
-                if nums[0] <= target < nums[mid]:
+                if nums[0] <= target <= nums[mid]:
                     r = mid
                 else:
                     l = mid
             elif nums[mid] < nums[0]:
-                if nums[mid] < target <= nums[length-1]: # the equal important
+                if nums[mid] <= target <= nums[length-1]:
                     l = mid
                 else:
                     r = mid
