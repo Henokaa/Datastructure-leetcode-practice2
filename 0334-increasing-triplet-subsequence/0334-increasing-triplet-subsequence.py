@@ -1,17 +1,17 @@
+from bisect import bisect_left
 class Solution:
     def increasingTriplet(self, nums: List[int]) -> bool:
-        INF = 10 ** 20
         
-        s1 = INF
-        s2 = INF
-        
-        for x in nums:
-            # print(x, s1,s2)
-            if x > s2:
+        sub = []
+        for num in nums:
+            pos = bisect_left(sub, num)
+            if pos == len(sub):
+                sub.append(num)
+            else:
+                sub[pos] = num
+                
+            if len(sub) >= 3:
                 return True
-            if x > s1:
-                s2 = min(x, s2)
-            s1 = min(x, s1)
         return False
             
         
