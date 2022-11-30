@@ -14,8 +14,8 @@ class Solution:
             
             for x in range(i, len(candidates)):
                 if total + candidates[x] <= target:
-                    backtrack(x, path)
-                    path.pop()
+                    backtrack(x, path.copy())
+                    # path.pop()
                     
         
         ans = []
