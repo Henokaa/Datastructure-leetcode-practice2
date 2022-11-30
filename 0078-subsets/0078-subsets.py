@@ -4,15 +4,21 @@ class Solution:
         [1, 2, 3]
         [1],[2],[3],[1,2],[1,3],[2,3],[1,2,3]
         o(n * 2^n)
+        space - height of a tree
         8 choices with n elements max
         '''
         
-        def backtrack(start, end, tmp):
-            ans.append(tmp[:])
-            for i in range(start, end):
-                tmp.append(nums[i])
-                backtrack(i+1, end, tmp)
-                tmp.pop()
+        def backtrack(i, path):
+            if i == len(nums):
+                ans.append(path.copy())
+                return
+            path.append(nums[i])
+            backtrack(i + 1, path)
+            path.pop()
+            backtrack(i + 1, path)
+            
+            
+            
         ans = []
-        backtrack(0, len(nums), [])
+        backtrack(0, [])
         return ans
