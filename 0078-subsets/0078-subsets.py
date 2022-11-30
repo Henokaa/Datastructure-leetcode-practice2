@@ -9,16 +9,17 @@ class Solution:
         '''
         
         def backtrack(i, path):
-            if i == len(nums):
-                ans.append(path.copy())
+            if i > len(nums):
                 return
             path.append(nums[i])
-            backtrack(i + 1, path)
-            path.pop()
-            backtrack(i + 1, path)
-            
-            
-            
+            ans.append(path.copy())
+            for x in range(i + 1, len(nums)):
+                backtrack(x, path)
+                path.pop()  
+                
+                
         ans = []
-        backtrack(0, [])
+        for i in range(len(nums)):
+            backtrack(i, [])
+        ans.append([])
         return ans
