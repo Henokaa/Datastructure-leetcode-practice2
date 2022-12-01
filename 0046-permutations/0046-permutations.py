@@ -1,26 +1,21 @@
 class Solution:
     def permute(self, nums: List[int]) -> List[List[int]]:
-        '''
-        [1,2,3]
-        [1,2,3], [2,1,3], [3,2,1], [1,3,2], []
-        '''
-        prem = []
-        ans = []
-        visited = set()
-        def dp(i, visited, prem):
-            if i >= len(nums):
-                return prem
+        def backtrack(i, visited, path):
+            path.append(nums[i])
+            if len(path) == len(nums):
+                ans.append(path.copy())
+                return
             
-            prem.append(nums[i])
             visited.add(nums[i])
-            
             for x in range(len(nums)):
-                if nums[x] not in visited:
-                    dp(x, visited.copy(), prem.copy())
-            if len(visited) == len(nums):
-                ans.append(prem)
-            return
+                if nums[x] in visited:
+                    continue
+                backtrack(x, visited.copy(), path)
+                path.pop()
             
+                
+        ans = []
         for i in range(len(nums)):
-            dp(i, set(), [])
+            backtrack(i, set(), [])
+        
         return ans
