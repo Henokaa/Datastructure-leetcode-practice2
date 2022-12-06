@@ -41,50 +41,34 @@ class Solution:
         ans = ""
         while maxHeap:
             # print(maxHeap, ans)
-            if len(maxHeap) >= 2 and maxHeap[0][0] <= -2:
+            if maxHeap and len(ans) >= 2 and ans[-1] == ans[-2] == maxHeap[0][1]:
+                freq, char = heapq.heappop(maxHeap)
+                temp.append((freq, char))
+                
+                if maxHeap:
+                    freq, char = heapq.heappop(maxHeap)
+                    ans += char
+            
+                    if freq + 1 < 0:
+                        heapq.heappush(maxHeap, (freq + 1, char))
+                    for x, y in temp:
+                        heapq.heappush(maxHeap, (x,y))
+                    temp = []
+                else:
+                    break
+                
+            else:
+                freq, char = heapq.heappop(maxHeap)
+                # print(freq, char)
+                ans += char
+                if freq + 1 < 0:
+                    heapq.heappush(maxHeap, (freq + 1, char))
+        return ans
+                    
                 # 2 pop by -2 and -1
                 
-                if ans and maxHeap[0][1] != ans[-1] or not ans:
-                    letters, char = heapq.heappop(maxHeap)
-                    if letters + 2 < 0:
-                        temp.append((letters + 2, char)) 
-                    ans += char + char
                 
-                    letters, char = heapq.heappop(maxHeap)
-                    ans += char
-                    if letters + 1 < 0:
-                        temp.append((letters + 1, char))
-                        
-                elif ans and maxHeap[0][1] == ans[-1]:
-                    letters, char = heapq.heappop(maxHeap)
-                    
-                    ans += char
-                    if letters + 1 < 0:
-                        temp.append((letters + 1, char))
-                        
-                        
-                # from que append to the maxHeap
-                for x, y in temp:
-                    if x >= 0:
-                        continue
-                    heapq.heappush(maxHeap, (x, y))
-                temp = []
-                
-                
-                
-            elif len(maxHeap) == 1 and maxHeap[0][0] <= -2:
-                ans += maxHeap[0][1]
-                ans += maxHeap[0][1]
-                break
-            
-            while maxHeap and maxHeap[0][0] == -1:
-                letters, char = heapq.heappop(maxHeap)
-                ans += char
-                
-                
-            
-                
-        return ans
+                 
                 
                 
                 
