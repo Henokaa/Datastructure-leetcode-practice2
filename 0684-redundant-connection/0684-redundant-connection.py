@@ -11,8 +11,8 @@ class Solution:
         def find(n):
             p = par[n]
             while p != par[p]:
-                par[p] = par[par[p]]
-                p = par[p]
+                p = par[par[p]]
+                
             return p
 
         # return False if already unioned
