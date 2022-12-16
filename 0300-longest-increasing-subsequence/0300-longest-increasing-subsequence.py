@@ -1,34 +1,23 @@
-from bisect import bisect_left
 class Solution:
     def lengthOfLIS(self, nums: List[int]) -> int:
-        def binarySearch(sub, val):
-            lo, hi = 0, len(sub)-1
-            while(lo <= hi):
-                mid = lo + (hi - lo)//2
-                if sub[mid] < val:
-                    lo = mid + 1
-                elif val <= sub[mid]:
-                    hi = mid - 1
-                
-            return lo
+        memo = {}
         
-        sub = []
-        for val in nums:
-            pos = binarySearch(sub, val)
-            # because for rg 3 its one
-            if pos == len(sub):
-                sub.append(val)
-            else:
-                sub[pos] = val
+        def solve(idx):
+            if idx >= len(nums):
+                return 0
+            if idx in memo:
+                return memo[idx]
             
-            # print(val , pos, sub)
-        return len(sub)
-        
+            maximum = 0
+            compare = nums[idx]
+            
+            if idx == -1:
+                compare = float('-inf')
                 
-            
-                
-            
-    
+            for i in range(idx + 1, len(nums)):
+                if nums[i] > compare:
+                    maximum = max(maximum, solve(i))
+            memo[idx] = maximum + 1        
+            return maximum + 1
         
-
-
+        return solve(-1) - 1
