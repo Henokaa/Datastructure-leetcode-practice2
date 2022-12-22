@@ -13,15 +13,15 @@ class Solution:
         for i in range(len(graph)):
             node[i] = graph[i]
         
+        
         que = deque()
         visited1 = {}
         for i in range(len(graph)):
             if i in visited1:
                 continue
-            visited1[0] = 0
+            visited1[i] = 0
             que = deque()
             que.append((i, 0))
-            
             while que:
                 parent = que.popleft()
                 
