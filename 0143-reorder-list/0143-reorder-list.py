@@ -10,36 +10,38 @@ class Solution:
         """
         if not head.next:
             return head
+        
         slow = head
         fast = head.next
         
-        while fast:
-            fast = fast.next
-            if fast:
-                fast = fast.next 
+        while fast and fast.next:
             slow = slow.next
+            fast = fast.next.next
         
+        # print(slow.val)
         
+        # reversing
         prev = None
-        cur = slow.next 
+        cur = slow.next
         slow.next = None
         while cur:
             temp = cur.next
             cur.next = prev
-            prev = cur 
+            prev = cur
             cur = temp
-        
         
         first = head
         sec = prev
-        while sec:
+        # print(first, prev)
+        while first and sec:
             temp1 = first.next
-            temp2 = sec.next
             first.next = sec
-            sec.next = temp1
-            sec = temp2
             first = temp1
-        
+            temp2 = sec.next
+            sec.next = first
+            sec = temp2
+            
+            
         
         
             
