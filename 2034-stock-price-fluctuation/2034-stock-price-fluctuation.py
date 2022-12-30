@@ -1,40 +1,44 @@
 class StockPrice:
 
     def __init__(self):
-        self.timestamps = {}
-        self.max_time = 0
-        self.min_heap = []
-        self.max_heap = []
-        
+        self.saved = {}
+        self.maxHeap = []
+        self.latest = 0
+        self.minHeap = []
+
     def update(self, timestamp: int, price: int) -> None:
-        self.timestamps[timestamp] = price
-        self.max_time = max(self.max_time, timestamp)
+        self.saved[timestamp] = price
+        heapq.heappush(self.maxHeap, (-price, timestamp))
+        heapq.heappush(self.minHeap, (price, timestamp))
+        self.latest = max(self.latest, timestamp)
         
-        heapq.heappush(self.min_heap, (price, timestamp))
-        heapq.heappush(self.max_heap, (-price, timestamp))
+        
 
     def current(self) -> int:
-        return self.timestamps[self.max_time]
+        return self.saved[self.latest]
+        
 
     def maximum(self) -> int:
-        cur_price, timestamp = heapq.heappop(self.max_heap)
+        while self.maxHeap:
+            pricex, timestamp =heapq.heappop(self.maxHeap)
+            pricex = -pricex
+            if self.saved[timestamp] == pricex:
+                heapq.heappush(self.maxHeap, (-pricex, timestamp))
+                return pricex
         
-        while -cur_price != self.timestamps[timestamp]:
-            cur_price, timestamp = heapq.heappop(self.max_heap)
+            
         
-        heapq.heappush(self.max_heap, (cur_price, timestamp))
+                
         
-        return -cur_price
 
     def minimum(self) -> int:
-        cur_price, timestamp = heapq.heappop(self.min_heap)
+        while self.minHeap:
+            pricex, timestamp = heapq.heappop(self.minHeap)
+            if self.saved[timestamp] == pricex:
+                heapq.heappush(self.minHeap, (pricex, timestamp))
+                return pricex
         
-        while cur_price != self.timestamps[timestamp]:
-            cur_price, timestamp = heapq.heappop(self.min_heap)
-        
-        heapq.heappush(self.min_heap, (cur_price, timestamp))
-        
-        return cur_price
+
 
 # Your StockPrice object will be instantiated and called as such:
 # obj = StockPrice()
