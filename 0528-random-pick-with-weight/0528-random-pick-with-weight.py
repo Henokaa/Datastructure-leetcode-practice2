@@ -3,24 +3,29 @@ class Solution:
     def __init__(self, w: List[int]):
         self.prefix = []
         total = 0
-        for num in w:
-            total += num
+        for i in w:
+            total += i
             self.prefix.append(total)
+        # print(self.prefix)
             
+        
 
     def pickIndex(self) -> int:
-        random_num = random.randint(1, self.prefix[-1])
+        ran = random.randint(1,self.prefix[-1])
+        l = -1
+        r = len(self.prefix)
         
-        left, right = 0, len(self.prefix) - 1
-        best = -1
-        while left <= right:
-            mid = (left + right) // 2
-            if self.prefix[mid] >= random_num:
-                best = mid
-                right = mid - 1
+        while r > l + 1:
+            mid = l + (r - l)//2
+            if self.prefix[mid] == ran:
+                return mid
+            if self.prefix[mid] > ran:
+                r = mid
             else:
-                left = mid + 1
-        return best
+                l = mid
+        # print(ran,r)
+        return r
+            
 
 
 # Your Solution object will be instantiated and called as such:
