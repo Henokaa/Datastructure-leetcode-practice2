@@ -1,25 +1,26 @@
 class Solution:
     def deleteAndEarn(self, nums: List[int]) -> int:
-        x = Counter(nums)
-        # print(x)
-        nums = sorted(list(set(nums)))
-        # print(nums)
-        
+        saved = defaultdict(int)
+        for i in nums:
+            saved[i] += 1
+        # print(saved)
+        temp = list(set(nums))
+        # print(temp)
         dp = []
-        for i in range(len(nums)):
-            temp1 = 0
-            temp2 = 0
-            temp3 = 0
-            val = 0
-            if i-1 >= 0 and nums[i] - 1 != nums[i-1]:
-                temp1 = dp[i-1]
-            elif i - 2 >= 0:
-                temp2 = dp[i-2]
-            
-            temp3 = max(temp1, temp2)
-            if i-1 >=0:
-                val = dp[i-1]
-            dp.append(max(val, temp3 + (nums[i]*x[nums[i]])))
+        for i in range(len(temp)):
+            val1 = 0
+            val2 = 0
+            ans = 0
+            val1 = temp[i]*saved[temp[i]]
+            if i-1 >= 0 and temp[i-1] == temp[i] - 1:
+                if i - 2 >= 0:
+                    val2 = dp[i-2]
+                ans = max(dp[i-1] ,val1 + val2)
+            else:
+                if i - 1 >= 0:
+                    val2 = dp[i-1]
+                ans = val1 + val2
+            dp.append(ans)
         return dp[-1]
             
-            
+        
