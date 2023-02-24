@@ -1,24 +1,22 @@
 class Solution:
     def computeArea(self, ax1: int, ay1: int, ax2: int, ay2: int, bx1: int, by1: int, bx2: int, by2: int) -> int:
-        rec1w = (ax1, ax2)
-        rec2w = (bx1, bx2)
-        disw = 0
-        if rec1w[0] <= rec2w[0] <= rec1w[1] or rec2w[0] <= rec1w[0] <= rec2w[1]:
-            disw = (max(ax1,bx1), min(ax2,bx2))
-            disw = disw[1] - disw[0]
+        width1 = ax2 - ax1
+        height1 = ay2 - ay1
+        rec1 = height1 * width1
+        width2 = bx2 - bx1
+        height2 = by2 - by1
+        rec2 = width2 * height2
         
-        rec1h = (ay1, ay2)
-        rec2h = (by1, by2)
+        x1 = max(ax1, bx1)
+        y1 = max(by1, ay1)
+        x2 = min(ax2,bx2)
+        y2 = min(ay2, by2)
         
-        dish = 0
-        if rec1h[0] <= rec2h[0] <= rec1h[1] or rec2h[0] <= rec1h[0] <= rec2h[1]:
-            dish = (max(ay1, by1),min(ay2, by2))
-            # print(dish)
-            dish = dish[1] - dish[0]
-            
-        area1 = (ax2 - ax1) * (ay2 - ay1)
-        area2 = (bx2 - bx1) * (by2 - by1)
-        area = area1 + area2
-        # print(area, dish, disw)
-        return area - (dish * disw)
-            
+        x = x2 - x1
+        y = y2 - y1
+        overlap = 0
+        if x > 0 and y > 0:
+            overlap = x * y
+        # print(rec1, rec2, x, y)
+        ans = rec1 + rec2 - overlap
+        return ans
