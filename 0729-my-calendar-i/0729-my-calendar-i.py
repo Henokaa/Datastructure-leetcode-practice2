@@ -2,19 +2,31 @@ from sortedcontainers import SortedList
 
 class MyCalendar:
     def __init__(self):
-        self.bookings = SortedList()
-    
+        self.bookings = []
     def book(self, start: int, end: int) -> bool:
-        # check if there is any overlap with an existing booking
-        i = self.bookings.bisect_right((start,end))
-        if i > 0 and self.bookings[i-1][1] > start:
-            return False
-        if i < len(self.bookings) and end > self.bookings[i][0]:
+        l = -1
+        r = len(self.bookings)
+        while r > l + 1:
+            mid = (l + r)//2
+            if self.bookings[mid][0] > start:
+                r = mid
+            elif self.bookings[mid][0] <= start :
+                l = mid
+            
+        # print(self.bookings, l , r, (start, end))
+        if r < len(self.bookings) and self.bookings[r][0] < end:
+            # print("a")
             return False
         
-        # insert the new booking at the correct position
-        self.bookings.add((start, end))
+        if l != -1 and self.bookings[l][0] < end and self.bookings[l][1] > start:
+            # print("b")
+            return False
+        # if l == -1:
+        #     l = 0
+        self.bookings.insert(l + 1,(start, end))
         return True
+            
+        
 
         
 
