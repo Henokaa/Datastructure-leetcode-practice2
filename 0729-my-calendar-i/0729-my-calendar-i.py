@@ -32,9 +32,5 @@ class MyCalendar:
 
 # brute force
 '''
-In this implementation, we use a SortedList object to store the bookings. The SortedList automatically keeps the elements in sorted order, so we don't need to call the .sort() method as we did in the previous implementations.
-
-To check if there is any overlap with an existing booking, we use the bisect_right method of the SortedList object to find the correct position to insert the new booking. If there is any overlap with the previous or next booking, we return False.
-
-The time complexity of this approach is O(nlogn) for each booking because the bisect_right method has a time complexity of O(logn), and we call it twice for each booking. The space complexity is O(n) to store the bookings in a SortedList.
+The book method first performs a binary search on the intervals list to find the correct position to insert the new event. The time complexity of the binary search is O(log N), where N is the number of existing events in the calendar. Once the correct position is found, the method checks if the new event conflicts with any existing events. This can be done in constant time by comparing the start and end times of the new event with the intervals adjacent to it in the list. Finally, if the new event does not conflict with any existing events, it is inserted into the list in O(N) time, where N is the number of existing events. Overall, the time complexity of the book method is O(log N) for the binary search, plus O(N) for the insertion step, for a total time complexity of O(N).
 '''
