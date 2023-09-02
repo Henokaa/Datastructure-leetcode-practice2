@@ -8,19 +8,26 @@ class Solution:
         if not head:
             return head
         odd = head
-        even = head.next
-        evenhead = head.next
-        
-        while even and even.next:
+        even = None
+        even_head = None
+        if head.next:
+            even = head.next
+            even_head = even
+        while odd.next and odd.next.next:
             odd.next = odd.next.next
-            odd = odd.next
             even.next = even.next.next
+            odd = odd.next
             even = even.next
-            
-            
-        odd.next = evenhead
     
+        # print(head)
+        # print(even_head)
+        odd.next = even_head
         return head
+            
+     
+                
         
+        
+            
         
         
