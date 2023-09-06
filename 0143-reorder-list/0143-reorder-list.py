@@ -8,41 +8,44 @@ class Solution:
         """
         Do not return anything, modify head in-place instead.
         """
-        if not head.next:
-            return head
-        
+        if not head:
+            return None
         slow = head
-        fast = head.next
-        
+        fast = head
+        terminate = slow
         while fast and fast.next:
+            terminate = slow
             slow = slow.next
             fast = fast.next.next
+    
+        first = None
+        sec = slow
+        third = slow.next
+        # handle errors 
         
-        # print(slow.val)
-        
-        # reversing
-        prev = None
-        cur = slow.next
-        slow.next = None
-        while cur:
-            temp = cur.next
-            cur.next = prev
-            prev = cur
-            cur = temp
-        
-        first = head
-        sec = prev
-        # print(first, prev)
-        while first and sec:
-            temp1 = first.next
-            first.next = sec
-            first = temp1
-            temp2 = sec.next
+        while sec:
             sec.next = first
-            sec = temp2
-            
-            
+            first = sec
+            sec = third
+            if third:
+                third = third.next
+                
+        terminate.next = None
+        # print(first)
+        # print(head)
+        end = first
+        start = head
         
-        
-            
+        # first variable
+        while start and end:
+            temp1 = start.next
+            temp2 = end.next
+            start.next = end
+            end.next = temp1
+            last = end
+            start = temp1
+            end = temp2
+        if end:
+            last.next = end
+        return head
             
