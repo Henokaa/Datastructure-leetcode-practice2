@@ -18,6 +18,16 @@ class Solution:
         
         return r + 1
     # [1,2,2,3]
+    '''
+    The most important rule in binary search 
+ L = -1 and r = len(nums), this only works for index, and not for like a question koko eating banana. 
+ l = mid
+ r = mid
+ 
+ but for l <= r where l = 0, r = len(nums) - 1 
+ l = mid + 1
+ r = mid - 1
+    '''
             
                 
         
