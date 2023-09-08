@@ -1,52 +1,42 @@
 class Solution:
     def searchRange(self, nums: List[int], target: int) -> List[int]:
-        '''
-        [5, 7, 7, 8, 8, 10]
-               |                
-        the starting point
-        if mid > target:
-            mif = r - 1
-        '''
-        def binarymin(nums, target):
-            left = 0
-            right = len(nums) - 1
-            start = float('inf')
-            while left <= right:
-                mid = left + (right - left) // 2
+        def binary_search(start):
+            l = -1
+            r = len(nums)
+            begin = -1
+            ending = -1
+            while r > l + 1:
+                mid = l + (r - l) // 2
                 if nums[mid] > target:
-                    right = mid - 1
+                    r = mid
                 elif nums[mid] < target:
-                    left = mid + 1
-                elif nums[mid] == target:
-                    start = mid
-                    right = mid - 1
-            if start == float('inf'):
-                return -1
-            else:
-                return start
-        def binarymax(nums, target):
-            left = 0
-            right = len(nums) - 1
-            end = float('INF')
-            while left <= right:
-                mid = left + (right - left) // 2
-                if nums[mid] > target:
-                    right = mid - 1
-                elif nums[mid] < target:
-                    left = mid + 1
-                elif nums[mid] == target:
-                    end = mid
-                    left = mid + 1
-            if end == float('inf'):
-                return -1
-            else:
-                return end
-        
-        begin = binarymin(nums, target)
-        end = binarymax(nums, target)
-        return [begin, end]
+                    l = mid
+                else:
+                    if start == True:
+                        r = mid
+                        begin = mid 
+                    else:
+                        l = mid
+                        ending = mid
             
+            if start == True:
+                return begin
+            else:
+                return ending
+        start = binary_search(True)
+        end = binary_search(False)
+        # print(start, end)
+        return [start, end]
+    
+    '''
+    The most important rule in binary search 
+ L = -1 and r = len(nums), this only works for index, and not for like a question koko eating banana. 
+ l = mid
+ r = mid
+ 
+ but for l <= r where l = 0, r = len(nums) - 1 
+ l = mid + 1
+ r = mid - 1
+    '''
         
         
-        
-            
