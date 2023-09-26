@@ -1,14 +1,18 @@
 class Solution:
     def removeDuplicateLetters(self, s: str) -> str:
-        count = Counter(s) # initialize frequency hashmap
-        st = []
-        taken = set()
-        for char in s:
-            if char not in taken:
-                # check if there are any more instances of the evicting character
-                while st and st[-1] > char and count[st[-1]] > 0:
-                    taken.remove(st.pop())
-                st.append(char)
-                taken.add(char)
-            count[char] -= 1 # finish processing this character
-        return ''.join(st)
+        stack = []
+        seen = set()
+        last_occurrence = {c: i for i, c in enumerate(s)}
+        # print(last_occurrence)
+        for i, c in enumerate(s):
+            if c not in seen:
+                while stack and c < stack[-1] and i < last_occurrence[stack[-1]]:
+                    seen.remove(stack.pop())
+                stack.append(c)
+                seen.add(c)
+            # print(stack, seen)
+
+        return ''.join(stack)
+    '''
+    bca  -> a removed every one
+    '''
