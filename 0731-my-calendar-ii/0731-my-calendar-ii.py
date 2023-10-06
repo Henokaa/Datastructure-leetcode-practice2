@@ -1,21 +1,21 @@
 class MyCalendarTwo:
 
     def __init__(self):
-        self.events = []
+        self.calendar = []
+        self.overlaps = []
 
     def book(self, start: int, end: int) -> bool:
-        overlaps = []
-        for s, e in self.events:
-            if start < e and s < end:
-                overlap_start = max(start, s)
-                overlap_end = min(end, e)
-                for o_s, o_e in overlaps:
-                    if overlap_start < o_e and o_s < overlap_end:
-                        # Triple booking
-                        return False
-                overlaps.append((overlap_start, overlap_end))
-        self.events.append((start, end))
+        for x,y in self.overlaps:
+            if start < y and end > x:
+                return False
+            
+        for s,e in self.calendar:
+            if start < e and end > s:
+                self.overlaps.append([max(start,s), min(end,e)])
+        
+        self.calendar.append([start,end])
         return True
+        
 
 
 
