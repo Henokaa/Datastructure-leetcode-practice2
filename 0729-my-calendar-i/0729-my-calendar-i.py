@@ -18,7 +18,7 @@ class MyCalendar:
             # print("a")
             return False
         
-        if l != -1 and self.bookings[l][0] < end and self.bookings[l][1] > start:
+        if l != -1 and self.bookings[l][1] > start:
             # print("b")
             return False
         # if l == -1:
