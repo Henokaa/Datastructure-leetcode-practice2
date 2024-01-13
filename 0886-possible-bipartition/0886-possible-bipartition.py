@@ -1,41 +1,36 @@
-class UnionFind:
-    def __init__(self, size):
-        self.parent = list(range(size))
-        self.rank = [0] * size
-    
-    def find(self, x):
-        if self.parent[x] != x:
-            self.parent[x] = self.find(self.parent[x])
-        
-        return self.parent[x]
-    
-    def union_set(self, x, y):
-        xset = self.find(x)
-        yset = self.find(y)
-        if xset == yset:
-            return
-        
-        if self.rank[xset] < self.rank[yset]:
-            self.parent[xset] = yset
-        elif self.rank[xset] > self.rank[yset]:
-            self.parent[yset] = xset
-        else:
-            self.parent[yset] = xset
-            self.rank[xset] += 1
-        
 class Solution:
     def possibleBipartition(self, n: int, dislikes: List[List[int]]) -> bool:
-        adj = [[] for _ in range(n + 1)]
-        for dislike in dislikes:
-            adj[dislike[0]].append(dislike[1])
-            adj[dislike[1]].append(dislike[0])
+        '''
+        coloring
+        '''
+        # graph
+        graph = defaultdict(list)
+        for x,y in dislikes:
+            graph[x].append(y)
+            graph[y].append(x)
         
-        dsu = UnionFind(n + 1)
-        for node in range(1, n + 1):
-            for neighbor in adj[node]:
-                # Check if the node and its neighbor is in the same set.
-                if dsu.find(node) == dsu.find(neighbor): return False
-                # Move all the neighbours into same set as the first neighbour.
-                dsu.union_set(adj[node][0], neighbor)
-        
+        visited = {}
+        for start in graph.keys():
+            que = deque()
+            if start in visited:
+                continue
+            que.append((start, 0))
+            visited[start] = 0
+            while que:
+                parent = que.popleft()
+                for child in graph[parent[0]]:
+                    if child not in visited:
+                        if parent[1] == 0:
+                            que.append((child, 1))
+                            visited[child] = 1
+                        else:
+                            que.append((child, 0))
+                            visited[child] = 0
+                    else:
+                        if visited[child] == visited[parent[0]]:
+                            return False
         return True
+                        
+        # coloring with a set
+                    
+            
