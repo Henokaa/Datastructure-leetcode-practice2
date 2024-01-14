@@ -7,20 +7,28 @@
 class Solution:
     def longestUnivaluePath(self, root: Optional[TreeNode]) -> int:
         self.mx = 0
-        def dfs(rt, prev):
-            if not rt:
-                return 0
+        def dfs(root):
+            if not root:
+                return (1001, 0)
+            left = dfs(root.left)
+            right = dfs(root.right)
             
-            left = dfs(rt.left, rt.val)
-            right = dfs(rt.right, rt.val)
-            self.mx = max(left + right + 1, self.mx)
-            ret = 0
-            if rt.val == prev:
-                ret = max(left, right) + 1
-            return ret
+            
+            
+            count_left = 0
+            if left[0] == root.val:
+                count_left = max(count_left, left[1])
+            
+            count_right = 0
+            if right[0] == root.val:
+                count_right = max(count_right, right[1])
+            
+            # print(root.val, left, right, count_left, count_right)
+            
+            self.mx = max(self.mx, count_left + count_right + 1)
+            return (root.val, max(count_right, count_left) + 1)
         
         if not root:
             return 0
-        
-        dfs(root, -1001)
+        dfs(root)
         return self.mx - 1
