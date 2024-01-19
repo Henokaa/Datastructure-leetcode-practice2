@@ -1,20 +1,20 @@
 class Solution:
     def numDecodings(self, s: str) -> int:
-        memo = {}
-        def dp(i):
-            if i in memo:
-                return memo[i]
-            if i >= len(s):
+        @cache
+        def dfs(i):
+            if i > len(s) - 1:
                 return 1
-            x , y  = 0, 0
-            if int(s[i]) != 0:
-                x = dp(i+1)
-                
-            st = s[i:i+2]
+            # print(i)
             
-            if i + 1 < len(s) and 10 <= int(st) <= 26:
-                y = dp(i+2)
-            memo[i] = x + y
-            return x + y
+            first = s[i:i+1]
+            l = 0
+            if len(first) == 1 and first[0] != "0" and 1 <= int(first) <= 26:
+                l = dfs(i + 1)
+            sec = s[i:i+2]
+            r = 0
+            if len(sec) == 2 and sec[0] != "0" and 1 <= int(sec) <= 26:
+                r = dfs(i + 2)
+            
+            return l + r
         
-        return dp(0)
+        return dfs(0)
