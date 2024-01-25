@@ -1,20 +1,28 @@
 class Solution:
-    def pseudoPalindromicPaths (self, root: TreeNode) -> int:
-        def preorder(node, path):
-            nonlocal count
-            if node:
-                # compute occurences of each digit 
-                # in the corresponding register
-                path = path ^ (1 << node.val)
-                # if it's a leaf, check if the path is pseudo-palindromic
-                if node.left is None and node.right is None:
-                    # check if at most one digit has an odd frequency
-                    if path & (path - 1) == 0:
-                        count += 1
-                else:                    
-                    preorder(node.left, path)
-                    preorder(node.right, path) 
+    def pseudoPalindromicPaths(self, root):
+        def is_pseudo_palindrome(counter):
+            odd_count = 0
+            for count in counter.values():
+                if count % 2 != 0:
+                    odd_count += 1
+                if odd_count > 1:
+                    return False
+            return True
         
-        count = 0
-        preorder(root, 0)
-        return count
+        def dfs(node, counter):
+            if not node:
+                return 0
+            
+            counter[node.val] += 1
+            if not node.left and not node.right:
+                result = int(is_pseudo_palindrome(counter))
+            else:
+                result = dfs(node.left, counter) + dfs(node.right, counter)
+            
+            counter[node.val] -= 1
+            if counter[node.val] == 0:
+                del counter[node.val]
+            
+            return result
+        
+        return dfs(root, Counter())
