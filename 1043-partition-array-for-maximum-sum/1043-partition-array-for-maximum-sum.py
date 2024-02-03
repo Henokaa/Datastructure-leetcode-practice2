@@ -2,9 +2,11 @@ class Solution:
     def maxSumAfterPartitioning(self, arr: List[int], k: int) -> int:
         '''
         
-        [1,4,1,5,7,3,6,1,9,9,3]
-         ^
-           ^
+        Time - 0(n * k)
+        space - (n)
+        Partition 1: [1, 15, 7] | Partition 2: [9, 2, 5]
+        Partition 1: [1, 15] | Partition 2: [7, 9, 2] | Partition 3: [5]
+        Partition 1: [1] | Partition 2: [15, 7, 9] | Partition 3: [2, 5]
         '''
         cache = {}
         def dfs(i):
