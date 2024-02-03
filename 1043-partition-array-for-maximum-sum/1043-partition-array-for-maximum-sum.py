@@ -8,22 +8,15 @@ class Solution:
         Partition 1: [1, 15] | Partition 2: [7, 9, 2] | Partition 3: [5]
         Partition 1: [1] | Partition 2: [15, 7, 9] | Partition 3: [2, 5]
         '''
-        cache = {}
-        def dfs(i):
-            if i in cache:
-                return cache[i]
-            
-            
-            cur_max = 0
-            res = 0
-            for j in range(i, min(i+k, len(arr))):
-                cur_max = max(cur_max, arr[j])
-                size_max = cur_max * (j - i + 1)
-                res = max(res ,dfs(j + 1) + size_max)
-            cache[i] = res
-            return res
+        n = len(arr)
+        dp = [0] * (n + 1)
 
-            
-            
-        return dfs(0)
+        for i in range(1, n + 1):
+            max_val = 0
+            for j in range(1, min(k, i) + 1):
+                # print(i,j)
+                max_val = max(max_val, arr[i - j])
+                dp[i] = max(dp[i], dp[i - j] + max_val * j)
+        # print(dp)
+        return dp[n]
         
