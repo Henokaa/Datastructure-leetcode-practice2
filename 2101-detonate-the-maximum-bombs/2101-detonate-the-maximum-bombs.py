@@ -14,38 +14,35 @@ class Solution:
                 for detonate in bombs
                 add it in que
                 
-                
-        Time = 0(n^3)
         '''
-        que = deque()
         
-        def bfs(x,y,r,i):
-            index = (x,y,r,i)
-            que.append((x,y,r))
-            count = 0
-            visited = set()
-            visited.add(i)
-            while que:
-                # print(que, count)
-                current = que.popleft()
+        adj = collections.defaultdict(list)
+        
+        for i in range(len(bombs)):
+            for j in range(i + 1, len(bombs)):
+                x1, y1, r1 = bombs[i]
+                x2, y2, r2 = bombs[j]
+                d = sqrt((x1 - x2)**2 + (y1 - y2)**2)
                 
-                count += 1
+                if d <= r1:
+                    adj[i].append(j)
                 
-                for i, bomb in enumerate(bombs):
-                    x,y,r = bomb
-                    distance = sqrt((current[0] - x)**2 + (current[1] - y)**2)
-                    if i not in visited and distance <= current[2]:
-                        que.append((x,y,r))
-                        visited.add(i)
+                if d <= r2:
+                    adj[j].append(i)
                 
-            return count
+        def dfs(i, visit):
+            if i in visit:
+                return 0
             
-        maximum_answer = 0
-        for i,bomb in enumerate(bombs):
-            x,y,r = bomb
-            answer = 0
-            answer += bfs(x,y,r,i)
-            # print(answer)
-            maximum_answer = max(maximum_answer, answer)
-        return maximum_answer
+            visit.add(i)
+            for nei in adj[i]:
+                dfs(nei, visit)
+            return len(visit)
+    
+        
+        res = 0
+        for i in range(len(bombs)):
+            res = max(res, dfs(i, set()))
+        return res
+            
         
