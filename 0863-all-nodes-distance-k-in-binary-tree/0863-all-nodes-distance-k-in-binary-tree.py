@@ -7,44 +7,39 @@
 
 class Solution:
     def distanceK(self, root: TreeNode, target: TreeNode, k: int) -> List[int]:
-        self.graph = defaultdict(list)
-        if k == 0:
-            return [target.val]
+        graph = defaultdict(list)
         def dfs(root):
-            if not root:
-                return
             if root.left:
-                left = root.left 
-                self.graph[root.val].append(left.val)
-                self.graph[left.val].append(root.val)
+                graph[root.val].append(root.left.val)
+                graph[root.left.val].append(root.val)
                 dfs(root.left)
-                
+            
             if root.right:
-                right = root.right
-                self.graph[root.val].append(right.val)
-                self.graph[right.val].append(root.val)
+                graph[root.val].append(root.right.val)
+                graph[root.right.val].append(root.val)
                 dfs(root.right)
 
         
         dfs(root)
-        # print(self.graph)
+        # print(graph)
         que = deque()
-        que.append(target.val)
-        visited = set()
-        visited.add(target.val)
-        level = 0
-        while que:
-            length = len(que)
-            for i in range(length):
-                temp1 = que.popleft()
-                for x in self.graph[temp1]:
-                    if x == temp1:
-                        continue
-                    if x not in visited:
-                        que.append(x)
-                        visited.add(x)
-            level += 1
-            if level == k:
-                break
-        return list(que)
         
+        visited = set()
+        que.append(target.val)
+        visited.add(target.val)
+        ans = [target.val]
+        while que and k > 0:
+            length = len(que)
+            
+            for _ in range(length):
+                output = que.popleft()
+                for child in graph[output]:
+                    if child not in visited:
+                        que.append(child)
+                        visited.add(child)
+            ans = list(que)
+            # print(ans)
+            k -= 1
+            
+        return ans
+
