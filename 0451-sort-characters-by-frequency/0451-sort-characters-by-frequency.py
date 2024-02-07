@@ -1,20 +1,20 @@
 class Solution:
     def frequencySort(self, s: str) -> str:
-        heap = []
-        saved = defaultdict(int)
+        letter = defaultdict(int)
+        inbound = lambda row, cols: 0 <= row < len(grid) 
         
-        for i in s:
-            saved[i] += 1
+        
+        for char in s:
+            letter[char] += 1
+        
+        # print(letter)
+        
+        sorted_letter = sorted(letter.items(), key = lambda x:x[1], reverse = True)
+        # print(sorted_letter)
+        answer = ''
+        for x,y in sorted_letter:
+            answer += x * y
             
-        # print(saved)
+        return answer
+            
         
-        heap = []
-        
-        for x,y in saved.items():
-            heapq.heappush(heap, [-y, x])
-        
-        ans = ""
-        while heap:
-            freq, char = heapq.heappop(heap)
-            ans += char * abs(freq)
-        return ans
