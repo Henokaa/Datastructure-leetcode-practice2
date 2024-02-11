@@ -1,26 +1,28 @@
 class Solution:
     def generateParenthesis(self, n: int) -> List[str]:
-        def dfs(path, openN, closeN):
+        '''
+        '''
+        answer = []
+        def dfs(opens, closes, generated):
+            if opens == n and closes == n:
+                # print("answer")
+                text = "".join(generated)
+                answer.append(text)
+                return  
             
-            if openN == n and closeN == n:
-                ans.append("".join(path))
-                return
+            # print(opens, closes)
+            if opens + 1 <= n:
+                generated.append("(") 
+                dfs(opens + 1, closes, generated)
+                generated.pop()
             
-            if openN < n:
-                path.append("(")
-                dfs(path, openN + 1, closeN)
-                path.pop()
+            if closes + 1 <= n:
+                if closes < opens:
+                    generated.append(")")
+                    dfs(opens, closes + 1, generated)
+                    generated.pop()
+                
             
-            if openN > closeN:
-                path.append(")")
-                dfs(path.copy(), openN, closeN + 1)
-                path.pop()
+        dfs(0,0, [])
+        return answer
         
-        ans = []
-        dfs([], 0, 0)
-        return ans
-                
-                
-            
-                
-                
