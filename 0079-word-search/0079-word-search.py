@@ -1,7 +1,7 @@
 class Solution:
     def exist(self, board: List[List[str]], word: str) -> bool:
         '''
-        
+        The key thing is you need to backtrack in the visited set, so that it can be reached from         another path
         '''
         directions = [[0,1], [1,0], [-1,0], [0,-1]]
         inbound = lambda x, y: 0 <= x < len(board) and 0 <= y < len(board[0])
