@@ -8,13 +8,17 @@ class Solution:
         
         
         '''
-        intervals.sort(key = lambda i: i[0])
-        output = [intervals[0]]
-        print(output)
-        for start, end in intervals[1:]:
-            lastEnd = output[-1][1]
-            if start <= lastEnd:
-                output[-1][1] = max(lastEnd, end)
+        intervals = sorted(intervals, key = lambda x: x[0])
+        print(intervals)
+        answer = []
+        for x,y in intervals:
+            if len(answer) == 0:
+                answer.append((x,y))
             else:
-                output.append([start, end])
-        return output
+                if x <= answer[-1][1]:
+                    answer[-1] = (answer[-1][0], max(y,answer[-1][1]))
+                else:
+                    answer.append((x,y))
+        return answer
+            
+            
