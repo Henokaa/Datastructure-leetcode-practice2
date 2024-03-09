@@ -1,42 +1,33 @@
 class Solution:
     def findOrder(self, numCourses: int, prerequisites: List[List[int]]) -> List[int]:
-        '''
-        '''
-        visited = set()
         graph = defaultdict(list)
         indegree = {}
+        que = deque()
+        visited = set()
         for i in range(numCourses):
             indegree[i] = 0
-            
         for x,y in prerequisites:
             graph[y].append(x)
             indegree[x] += 1
-            
-        que = deque()
+        
         for x,y in indegree.items():
             if y == 0:
                 que.append(x)
                 visited.add(x)
-                
-        
-        # print("indegree", indegree)
-        print(que)
-        ans = []
+       
+        answer = []
+    
         while que:
-            length = len(que)
+            element = que.popleft()
+            answer.append(element)
             
-            for i in range(length):
-                item = que.popleft()
-                ans.append(item)
-                for course in graph[item]:
-                    indegree[course] -= 1
-                    if indegree[course] == 0 and course not in visited:
-                        que.append(course)
-                        visited.add(course)
-         
-        return ans if len(ans) == numCourses else []
-                
-            
+            for child in graph[element]:
+                indegree[child] -= 1
+                if child not in visited and indegree[child] == 0:
+                    que.append(child)
+                    visited.add(child)
+                    
+        return answer if len(answer) == numCourses else []
         
         
             
