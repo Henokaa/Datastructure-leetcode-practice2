@@ -1,25 +1,22 @@
 class Solution:
     def rob(self, nums: List[int]) -> int:
-        n = len(nums)
-        memo = {}  # Memoization dictionary
-
-        def dp(i):
+        '''
+        [1,2,3,1]
+        
+        max(i + dfs(i + 2), dfs(i + 1))
+        '''
+        memo = {}
+        @cache
+        def dfs(i):
             if i in memo:
-                return memo[i]
-
-            if i >= n:
+                return 
+            if i >= len(nums):
                 return 0
-
-           
-            rob_current = nums[i] + dp(i + 2)
-
             
-            skip_current = dp(i + 1)
-
-            # Store the maximum amount in the memoization dictionary
-            memo[i] = max(rob_current, skip_current)
-
-            return memo[i]
-        left = dp(0)
-        print(memo)
-        return left
+            one = nums[i] + dfs(i + 2)
+            two = dfs(i + 1)
+            memo[i] = max(one, two)
+            return max(one, two)
+        
+        return dfs(0)
+        
