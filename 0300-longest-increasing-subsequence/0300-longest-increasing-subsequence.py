@@ -1,23 +1,42 @@
 class Solution:
     def lengthOfLIS(self, nums: List[int]) -> int:
+        '''
+        nums = [10,9,2,5,3,7,101,18]
+        
+        self.answer = 0
+        def dfs(i, k):
+            self.answer = max(self.answer, k)
+            for j in range(i+1, len(nums)):
+                if nums[j] > nums[i]:
+                    dfs(j, k+1)
+            
+            
+        for i in range(len(nums)):
+            dfs(i, 1)
+        
+        return self.answer
+        '''
+        self.answer = 0
         memo = {}
-        
-        def solve(idx):
-            if idx >= len(nums):
-                return 0
-            if idx in memo:
-                return memo[idx]
+        def dfs(i):
+            value = 1
+            if i in memo:
+                return memo[i]
             
-            maximum = 0
-            compare = nums[idx]
-            
-            if idx == -1:
-                compare = float('-inf')
+            for j in range(i+1, len(nums)):
+                if nums[j] > nums[i]:
+                    node = 1 + dfs(j)
+                    value = max(value, node)
+                    
+            # print(value)
+            memo[i] = value
+            return value
                 
-            for i in range(idx + 1, len(nums)):
-                if nums[i] > compare:
-                    maximum = max(maximum, solve(i))
-            memo[idx] = maximum + 1        
-            return maximum + 1
+            
+            
+        for i in range(len(nums)):
+            result = dfs(i)
+            # print(result)
+            self.answer = max(self.answer, result)
         
-        return solve(-1) - 1
+        return self.answer
