@@ -27,7 +27,8 @@ class Solution:
                 if nums[j] > nums[i]:
                     node = 1 + dfs(j)
                     value = max(value, node)
-                    
+            
+            self.answer = max(self.answer, value)
             # print(value)
             memo[i] = value
             return value
@@ -37,6 +38,5 @@ class Solution:
         for i in range(len(nums)):
             result = dfs(i)
             # print(result)
-            self.answer = max(self.answer, result)
         
         return self.answer
