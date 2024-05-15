@@ -1,25 +1,28 @@
 class Solution:
     def findCheapestPrice(self, n: int, flights: List[List[int]], src: int, dst: int, k: int) -> int:
-        graph = [[] for _ in range(n)]
-        for u, v, w in flights:
-            graph[u].append((v, w))
-
-        # Use a priority queue to keep track of cities with the smallest cost
-        # Each element in the queue is a tuple (cost, city, number of stops)
-        queue = [(0, src, k+1)]
-
-        # Dictionary to store the minimum cost to reach a city
-        min_cost = {src: 0}
-
-        while queue:
-            cost, city, stops = heapq.heappop(queue)
-            if city == dst:
-                return cost
-            if stops > 0:
-                for v, w in graph[city]:
-                    # If we can reach the city with less cost, then only consider this route
-                    if cost + w < min_cost.get((v, stops), float('inf')):
-                        min_cost[(v, stops)] = cost + w
-                        heapq.heappush(queue, (cost+w, v, stops-1))
-
+        graph = defaultdict(list)
+        for x,y,w in flights:
+            graph[x].append((y,w))
+        
+        que = []
+        que.append((0, src, 0))
+    
+        min_cost = {(src, 0) : 0}
+        
+        while que:
+            total, src, level = heapq.heappop(que) 
+            if src == dst:
+                return total
+            
+            if level + 1 <= k + 1:
+                for y,w in graph[src]:
+                    if ((y, level + 1) in min_cost and min_cost[(y, level + 1)] > w + total) or (y, level + 1) not in min_cost:
+                        min_cost[(y, level + 1)] = w + total
+                        heapq.heappush(que, (w+total, y, level+1))
+                
+                    
         return -1
+            
+                
+            
+        
