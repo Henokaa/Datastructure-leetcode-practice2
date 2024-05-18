@@ -1,28 +1,46 @@
 class Solution:
     def findCheapestPrice(self, n: int, flights: List[List[int]], src: int, dst: int, k: int) -> int:
-        graph = defaultdict(list)
-        for x,y,w in flights:
-            graph[x].append((y,w))
+        '''
+        graph
         
+        dikstra
+        
+        visit
+        '''
+        graph = defaultdict(list)
+        for x,y,weights in flights:
+            graph[x].append((y, weights))
+        
+        # print(graph)
+        visited = {}
         que = []
         que.append((0, src, 0))
-    
-        min_cost = {(src, 0) : 0}
+        level = 0
+
+        visited[(src, level)] = 0
         
         while que:
-            total, src, level = heapq.heappop(que) 
-            if src == dst:
-                return total
-            
-            if level + 1 <= k + 1:
-                for y,w in graph[src]:
-                    if ((y, level + 1) in min_cost and min_cost[(y, level + 1)] > w + total) or (y, level + 1) not in min_cost:
-                        min_cost[(y, level + 1)] = w + total
-                        heapq.heappush(que, (w+total, y, level+1))
+            weight, temp, temp_level = heapq.heappop(que)
+            # print(weight, temp)
+            if temp_level > k + 1:
+                continue
                 
-                    
+            if temp == dst:
+                return weight
+            
+            
+            
+            for child in graph[temp]:
+                if  ((child[0], temp_level+1) in visited and visited[child[0], temp_level+1] <= child[1] + weight):
+                    continue
+                # print(child)
+                # if ((child[0], temp_level+1) in visited and visited[child[0], temp_level+1] > child[1] + weight) or (child[0], temp_level+1) not in visited:
+                heapq.heappush(que, (child[1] + weight, child[0], temp_level + 1))
+                visited[(child[0], temp_level + 1)] = child[1] + weight
+                
+            level += 1
+            
         return -1
             
-                
             
-        
+            
