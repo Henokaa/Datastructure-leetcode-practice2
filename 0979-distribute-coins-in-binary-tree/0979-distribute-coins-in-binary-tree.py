@@ -6,7 +6,14 @@
 #         self.right = right
 class Solution:
     def distributeCoins(self, root: Optional[TreeNode]) -> int:
-        
+        '''
+        Key Observations:
+Total Coins and Nodes Match: Since the total number of coins equals the total number of nodes, the goal is to distribute the coins such that each node ends up with exactly one coin.
+Excess and Deficit:
+A node with more than one coin (excess) needs to give away coins.
+A node with zero coins (deficit) needs to receive coins.
+Net Balance: The net balance of coins for a node is defined as number of coins - 1. This tells us whether a node has excess coins (positive balance) or needs coins (negative balance).
+        '''
         def dfs(node):
             if not node:
                 return 0
