@@ -6,22 +6,21 @@
 #         self.right = right
 class Solution:
     def distributeCoins(self, root: Optional[TreeNode]) -> int:
-        Bucket = namedtuple('Bucket', ['coins', 'total'])
         
-        def traverse(node):
-            if node is None:
-                return Bucket(0,0)
+        def dfs(node):
+            if not node:
+                return 0
             
-            left = traverse(node.left)
-            right = traverse(node.right)
+            left_balance = dfs(node.left)
+            right_balance = dfs(node.right)
             
-            total = left.total + right.total
-            delta = left.coins + right.coins + (node.val - 1)
+            # Total moves is the sum of absolute balances from left and right
+            moves[0] += abs(left_balance) + abs(right_balance)
             
-            total += abs(delta)
-            
-            return Bucket(delta, total)
-        
-        ans = traverse(root)
-        return ans.total
+            # Balance of this node
+            return node.val + left_balance + right_balance - 1
+
+        moves = [0]
+        dfs(root)
+        return moves[0]
         
