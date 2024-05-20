@@ -7,32 +7,32 @@
 class Solution:
     def removeLeafNodes(self, root: Optional[TreeNode], target: int) -> Optional[TreeNode]:
         '''
-        leaf and == target dealt
-        
-        dfs
+        dfs()
+            left
+            right
+            
+            if not left and not right
+                return None
             
         '''
         
+                
         def dfs(root):
-            if root is None:
-                return
+            if not root:
+                return None
+            
             left = dfs(root.left)
             right = dfs(root.right)
-            # print(root.val)
-            if root.left is not None and root.left.val == -1:
-                # print("yes")
-                root.left = None
             
-            if root.right is not None and root.right.val == -1:
-                root.right = None
+            root.left = left
+            root.right = right
             
-            if root.left is None and root.right is None and root.val == target:
-                # print("yes_2")
-                root.val = -1
+            if root.left == None and root.right == None and root.val == target:
+                # print("Yes")
+                return None
+            
+            return root
         
-        dfs(root)
-        if root.val == -1:
-            root = None
-        return root
-                
-                
+        return dfs(root)
+        
+        
