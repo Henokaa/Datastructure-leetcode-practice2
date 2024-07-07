@@ -1,28 +1,32 @@
 class Solution:
     def maxDistance(self, position: List[int], m: int) -> int:
+        '''
+        _, 
+        '''
         # Sort the positions
         position.sort()
-
-        def canPlaceBalls(min_dist):
-            # Place the first ball at the first position
-            count = 1
-            last_position = position[0]
-
-            for i in range(1, len(position)):
-                if position[i] - last_position >= min_dist:
+        
+        head = 0
+        tail = position[-1]
+        
+        def good(x):
+            start = -1e100
+            
+            count = 0
+            for p in position:
+                if p - start >= x:
+                    # print("p", p)
+                    start = p
                     count += 1
-                    last_position = position[i]
-                    if count == m:
-                        return True
-            return False
-
-        # Binary search on the answer
-        left, right = 1, position[-1] - position[0]
-        while left <= right:
-            mid = (left + right) // 2
-            if canPlaceBalls(mid):
-                left = mid + 1
+            return count >= m
+        
+        while head < tail:
+            mid = (head + tail) // 2
+            # print(mid)
+            if good(mid + 1):
+                head = mid + 1
             else:
-                right = mid - 1
-
-        return right
+                tail = mid
+                
+        return head
+        
