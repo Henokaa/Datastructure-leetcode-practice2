@@ -6,27 +6,27 @@ class Solution:
         # Sort the positions
         position.sort()
         
-        head = 0
-        tail = position[-1]
-        
-        def good(x):
-            start = -1e100
-            
-            count = 0
+        def isPossible(x):
+            count = 1
+            prev = position[0]
             for p in position:
-                if p - start >= x:
-                    # print("p", p)
-                    start = p
+                if p - prev >= x:
+                    prev = p
                     count += 1
-            return count >= m
+            if count >= m:
+                return True
+            return False
         
-        while head < tail:
-            mid = (head + tail) // 2
-            # print(mid)
-            if good(mid + 1):
-                head = mid + 1
+        l = 1
+        r = position[-1] - position[0]
+        # print(position, l, r)
+        while l <= r:
+            mid = l + (r - l) // 2
+            if isPossible(mid):
+                l = mid + 1
+                answer = mid
             else:
-                tail = mid
-                
-        return head
+                r = mid - 1
+        
+        return answer
         
