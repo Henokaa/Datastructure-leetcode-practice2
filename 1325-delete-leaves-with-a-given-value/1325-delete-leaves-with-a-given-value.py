@@ -8,15 +8,18 @@ class Solution:
     def removeLeafNodes(self, root: Optional[TreeNode], target: int) -> Optional[TreeNode]:
         '''
         dfs()
-            left
-            right
+        if 
+            return
+        left = 
+        right =
+        
+        if left & right & val:
+            return None
             
-            if not left and not right
-                return None
-            
+        return root
+        
         '''
         
-                
         def dfs(root):
             if not root:
                 return None
@@ -24,15 +27,12 @@ class Solution:
             left = dfs(root.left)
             right = dfs(root.right)
             
+            if left == None and right == None and root.val == target:
+                return None
+            
             root.left = left
             root.right = right
-            
-            if root.left == None and root.right == None and root.val == target:
-                # print("Yes")
-                return None
             
             return root
         
         return dfs(root)
-        
-        
