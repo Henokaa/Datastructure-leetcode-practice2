@@ -6,33 +6,23 @@
 #         self.right = right
 class Solution:
     def sumNumbers(self, root: Optional[TreeNode]) -> int:
-        '''
-        sting
-        
-        dfs()
-        
-        left = dfs(x + str(root.val))
-        roght = dfs(x + str())
-        
-        if not leave
-            sum += 
-        '''
         self.total = 0
-        def dfs(root, numbers):
+        def dfs(root, path):
             if not root:
                 return None
             
-            left = dfs(root.left, numbers + str(root.val))
-            right = dfs(root.right, numbers + str(root.val))
-            
-            if not left and not right:
-                numbers += str(root.val)
-                # print(numbers)
-                self.total += int(numbers)
-                 
-            return root
-            
-            
-            
-        dfs(root, "")
+            if not root.left and not root.right:
+                element = ''.join(map(str, path))
+                element += str(root.val)
+                # print(element)
+                self.total += int(element)
+                
+            path.append(root.val)
+            left = dfs(root.left, path)
+            path.pop()
+            path.append(root.val)
+            right = dfs(root.right, path)
+            path.pop()
+        
+        dfs(root, [])
         return self.total
