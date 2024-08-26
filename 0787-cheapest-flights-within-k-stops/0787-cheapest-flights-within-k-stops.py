@@ -1,46 +1,40 @@
 class Solution:
-    def findCheapestPrice(self, n: int, flights: List[List[int]], src: int, dst: int, k: int) -> int:
+    def findCheapestPrice(self, n: int, flights: List[List[int]], src: int, dst: int, K: int) -> int:
         '''
-        graph
+        k += 1
         
-        dikstra
-        
-        visit
+        graph[0] = (1, 100)
+        dijkstra
+        heapq.heappush(que, (cost, node, temp_level))
+        visited [{node, level}] = cost
         '''
         graph = defaultdict(list)
-        for x,y,weights in flights:
-            graph[x].append((y, weights))
+        for x,y,z in flights:
+            graph[x].append((y, z))
         
-        # print(graph)
-        visited = {}
+    
         que = []
-        que.append((0, src, 0))
         level = 0
-
-        visited[(src, level)] = 0
-        
+        visited = {}
+        que.append((0, src, 0))
+        visited[(src, 0)] = 0
         while que:
-            weight, temp, temp_level = heapq.heappop(que)
-            # print(weight, temp)
-            if temp_level > k + 1:
+            cost, node, temp_level = heapq.heappop(que)
+            
+            if temp_level - 1 > K:
                 continue
                 
-            if temp == dst:
-                return weight
+            if node == dst and (temp_level - 1) <= K:
+                return cost
             
-            
-            
-            for child in graph[temp]:
-                if  ((child[0], temp_level+1) in visited and visited[child[0], temp_level+1] <= child[1] + weight):
+            for child, child_cost in graph[node]:
+                if ((child, temp_level + 1) in visited and visited[(child, temp_level + 1)] <= cost + child_cost):
                     continue
-                # print(child)
-                # if ((child[0], temp_level+1) in visited and visited[child[0], temp_level+1] > child[1] + weight) or (child[0], temp_level+1) not in visited:
-                heapq.heappush(que, (child[1] + weight, child[0], temp_level + 1))
-                visited[(child[0], temp_level + 1)] = child[1] + weight
-                
-            level += 1
+                    
+                heapq.heappush(que, (cost + child_cost, child, temp_level + 1))
+                visited[(child, temp_level + 1)] = cost + child_cost
             
+        
+        
         return -1
-            
-            
             
