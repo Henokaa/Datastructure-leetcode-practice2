@@ -1,55 +1,48 @@
 class Solution:
-    def shortestPath(self, grid: List[List[int]], kmax: int) -> int:
-        # bfs
-        R = len(grid)
-        C = len(grid[0])
+    def shortestPath(self, grid: List[List[int]], k: int) -> int:
+        '''
+        bfs(obstacle , x , y )
+        visited (x,y, obstacle)
+        Time - (n * m) * k
+        Space - (n * m) * k
+        '''
+        block = 0
+        directions = [[0,1], [1,0], [0, -1], [-1, 0]]
+        inbound = lambda x,y: 0 <= x < len(grid) and 0 <= y < len(grid[0])
+        # check if grid is valid
         
-        best = {}
-        q = []
-        nk = 0
         if grid[0][0] == 1:
-            nk += 1
+            block += 1
         
-        best[(0,0,nk)] = 0 
-        heapq.heappush(q, (0,0,0, nk))
-        directions = [(-1,0), (0,-1), (1,0), (0, 1)]
+        visited = set()
+        que = deque()
+        que.append((block, 0, 0, 0))
+        visited.add((block, 0, 0, 0))
         
-        while len(q) > 0:
-            # print(q)
-            steps, x, y, k = heapq.heappop(q)
+        while que:
+            block, x, y, level = que.popleft()
             
-            if x == R - 1 and y == C - 1:
-                return steps
+            if x == len(grid)-1 and y == len(grid[0]) - 1:
+                return level
             
-            # if best[(x,y,k)] > steps:
-            #     continue
-            
-            for dx, dy in directions:
-                nx, ny = x + dx, y + dy
+            for x1, y1 in directions:
+                nx = x1 + x
+                ny = y1 + y
+
+                new_block = block
+                if inbound(nx, ny) and grid[nx][ny] == 1:
+                    new_block += 1
                 
-                if 0 <= nx < R and 0 <= ny < C:
-                    nk = k
-                    
-                    if grid[nx][ny] == 1:
-                        nk += 1
-                        
-                    if nk > kmax:
-                        continue
-                        
-                    key = (nx, ny, nk)
-                    if key not in best:
-                        best[key] = steps + 1
-                        heapq.heappush(q, (steps + 1, nx, ny, nk))
-                                          
+                if (new_block, nx, ny) in visited:
+                    continue
+                
+                if new_block > k:
+                    continue
+                
+                if inbound(nx, ny): 
+                    que.append((new_block, nx, ny, level + 1))
+                    visited.add((new_block, nx, ny))
+        
         return -1
-            
-        
-        
-        
-        
-        
-        
-                                       
-                                       
-                        
-                        
+                
+                
