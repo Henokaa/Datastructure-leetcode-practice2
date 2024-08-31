@@ -1,45 +1,48 @@
 class Solution:
     def minimumObstacles(self, grid: List[List[int]]) -> int:
         '''
-        visited((nr,nc)) = k is a must otherwise TLE, i think optimization technqiue 
-        time-complexity - E*logE
-        space-complexity - 0(E)
+        dijkstra (blocks, x, y,)
+        visited (x, y, blocks)
+        Time complexity - (m * n)log(m * n)
+        Space  - (m * n)
         '''
-        # que bfs
+        
         que = []
-        visited = {}
-        directions = [[0,1],[1,0],[-1,0],[0,-1]]
-        inbound = lambda r,c: 0<=r<len(grid) and 0<=c<len(grid[0])
-        k = 0
+        block = 0
+        directions = [(0,1), (1,0), (0,-1), (-1,0)]
+        inbound = lambda x,y: 0 <= x < len(grid) and 0 <= y < len(grid[0])
         if grid[0][0] == 1:
-            k += 1
-        heapq.heappush(que, (k,0,0))
-        visited[(0,0)] = k
+            block += 1
+        
+        visited = {}
+        
+        heapq.heappush(que, (block, 0, 0, 0))
+        
         while que:
-            k, x, y = heapq.heappop(que)
+            block, x, y, level = heapq.heappop(que)
             
-            if visited[(x,y)] < k:
-                continue
+            # print(block, x, y)
+            if x == len(grid) - 1 and y == len(grid[0]) - 1:
+                return block
+            
+            for x1,y1 in directions:
+                nx = x1 + x
+                ny = y1 + y
                 
-            if x == len(grid)-1 and y == len(grid[0])-1:
-                return k
+                new_block = block
+                if inbound(nx,ny) and grid[nx][ny] == 1:
+                    new_block += 1
+                    
+                if (nx,ny) in visited and visited[(nx,ny)] <= new_block:
+                    continue
+                    
+                if inbound(nx,ny) and (nx,ny,new_block) not in visited:
+                    heapq.heappush(que, (new_block, nx, ny, level + 1))
+                    visited[(nx, ny)] = new_block
+                
+        return -1
+                
+                
             
             
-                
-            for r, c in directions:
-                nr = x + r
-                nc = y + c
-                
-                if inbound(nr,nc):
-                    nk = k
-                    if grid[nr][nc] == 1:
-                        nk += 1
-                    if (nr,nc) not in visited or visited[(nr,nc)] > nk:
-                        heapq.heappush(que, (nk,nr,nc))
-                        visited[(nr,nc)] = nk
-                
-        
-                
-        
-        
         
