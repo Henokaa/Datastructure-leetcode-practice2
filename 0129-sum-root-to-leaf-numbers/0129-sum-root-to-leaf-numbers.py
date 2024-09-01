@@ -6,23 +6,41 @@
 #         self.right = right
 class Solution:
     def sumNumbers(self, root: Optional[TreeNode]) -> int:
-        self.total = 0
+        '''
+        backtacking
+        '''
+        ans = []
         def dfs(root, path):
             if not root:
                 return None
             
-            if not root.left and not root.right:
-                element = ''.join(map(str, path))
-                element += str(root.val)
-                # print(element)
-                self.total += int(element)
-                
             path.append(root.val)
             left = dfs(root.left, path)
-            path.pop()
-            path.append(root.val)
             right = dfs(root.right, path)
+            
+            
+            if left == None and right == None:
+                ans.append(path.copy())
+                
             path.pop()
+            return root
         
         dfs(root, [])
-        return self.total
+        
+        # Very Very important, this or you can add str in the parameter of the function(see different solution)
+        solution = 0
+        for i in range(len(ans)):
+            temp = ''.join(map(str, ans[i]))
+            solution += int(temp)
+            
+        return solution
+        
+        # row = ''
+        # cols = 0
+        # for x in range(len(ans)):
+        #     for y in range(len(ans[x])):
+        #         row += str(ans[x][y])
+        #     # print(row)
+        #     cols += int(row)
+        #     row = ''
+        # return cols
