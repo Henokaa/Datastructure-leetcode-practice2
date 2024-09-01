@@ -7,17 +7,11 @@
 class Solution:
     def removeLeafNodes(self, root: Optional[TreeNode], target: int) -> Optional[TreeNode]:
         '''
-        dfs()
-        if 
-            return
-        left = 
-        right =
-        
-        if left & right & val:
-            return None
+        dfs
+            left
+            right
             
-        return root
-        
+            
         '''
         
         def dfs(root):
@@ -28,11 +22,13 @@ class Solution:
             right = dfs(root.right)
             
             if left == None and right == None and root.val == target:
+                # print(root.val)
                 return None
             
-            root.left = left
-            root.right = right
+            root.left = left   # Very hard to remeber
+            root.right = right  # Very hard to remeber
             
             return root
-        
+            
         return dfs(root)
+        
