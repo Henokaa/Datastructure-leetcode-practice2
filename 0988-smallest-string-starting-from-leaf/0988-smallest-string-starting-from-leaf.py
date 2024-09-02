@@ -7,34 +7,37 @@
 class Solution:
     def smallestFromLeaf(self, root: Optional[TreeNode]) -> str:
         '''
-        go to the bottom 
-        sort all the leaf output
+        
+        dfs()
+            leaf
+            flip string
+            append
+        
+        sort
+        [0]
         '''
-        answer = []
+        
+        temp = []
+        
         def dfs(root, path):
             if not root:
-                return root
+                return
             
-            path.append(root.val)
+            path.append(chr(97 + root.val))
             left = dfs(root.left, path)
-            
             right = dfs(root.right, path)
             
-            
-            if not left and not right:
+            if left == None and right == None:
+                temp.append(path[::-1].copy())
                 
-                temp = [chr(65 + int(elem)) for elem in path]
-                temp = temp[::-1]
-                # print(temp)
-                answer.append(temp)
-            
             path.pop()
-            
             return root
-                
+        
         
         dfs(root, [])
-        answer.sort()
-        text = "".join(answer[0])
-        return text.lower()
-        print(answer)
+        # print(temp)
+        temp.sort()
+        
+        return ''.join(temp[0])
+        
+        
