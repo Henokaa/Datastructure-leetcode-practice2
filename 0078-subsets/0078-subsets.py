@@ -8,18 +8,16 @@ class Solution:
         8 choices with n elements max
         '''
         
-        def backtrack(i, path):
-            if i > len(nums):
-                return
-            path.append(nums[i])
-            ans.append(path.copy())
-            for x in range(i + 1, len(nums)):
-                backtrack(x, path)
-                path.pop()  
-                
-                
         ans = []
-        for i in range(len(nums)):
-            backtrack(i, [])
-        ans.append([])
+        def dfs(i, path):
+            if i >= len(nums):
+                ans.append(path.copy())
+                return
+            
+            path.append(nums[i])
+            dfs(i+1, path)
+            path.pop()
+            dfs(i+1, path) 
+            
+        dfs(0, [])
         return ans
