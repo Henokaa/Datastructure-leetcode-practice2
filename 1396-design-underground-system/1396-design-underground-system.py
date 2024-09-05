@@ -1,38 +1,42 @@
 class UndergroundSystem:
     '''
-    45 : (leython,3), (waterloo,15)
-    32: (paradise, 8), ("Cambridge", 22)
-    27: (leython,10), (waterloo,20)
-    10: ("Leyton", 24), ("Waterloo", 38)
+    checkin
+    id: (username, time)
     
+    checkout
+    id: (state1, state2, time_diff)
     
-    (leython,waterloo): [14, 12,10]
+    (state1, state2): [time_diff]
     
-    
-'''
+    '''
 
     def __init__(self):
-        self.person = defaultdict(list)
-        self.station = defaultdict(list)
-
+        self.CheckIn_dict = {}
+        self.CheckOut_dict = {}
+        self.CheckAverage = defaultdict(list)
+        
+        
     def checkIn(self, id: int, stationName: str, t: int) -> None:
-        self.person[id].append((stationName, t))
+        self.CheckIn_dict[id] = (stationName, t)
+        
 
     def checkOut(self, id: int, stationName: str, t: int) -> None:
-        self.person[id].append((stationName, t))
+        if id in self.CheckIn_dict:
+            stationName_In, checkIn_time = self.CheckIn_dict[id]
+            
+        self.CheckOut_dict[id] = (stationName_In, stationName, t - checkIn_time) 
         
-        start = self.person[id][-2][1]
-        end = self.person[id][-1][1] 
+        self.CheckAverage[(stationName_In, stationName)].append(t - checkIn_time)
         
-        startStation = self.person[id][-2][0]
-        
-        self.station[(startStation, stationName)].append(end - start)
 
     def getAverageTime(self, startStation: str, endStation: str) -> float:
-        total = sum(self.station[(startStation, endStation)])
-        length = len(self.station[(startStation, endStation)])
-        # print(total//length)
+        total = 0
+        length = len(self.CheckAverage[(startStation, endStation)])
+        for averageTime in self.CheckAverage[(startStation, endStation)]:
+            total  += averageTime 
+        
         return total / length
+        
 
 
 # Your UndergroundSystem object will be instantiated and called as such:
