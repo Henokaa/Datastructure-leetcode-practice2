@@ -1,13 +1,17 @@
 class Solution:
     def transpose(self, matrix: List[List[int]]) -> List[List[int]]:
-        A = matrix
-        N = len(A)
-        M = len(A[0])
+       
+        new_matrix = [[0] * len(matrix) for _ in range(len(matrix[0]))] # important
         
-        res = [[0] * N for _ in range(M)]
+       
+     
+        for i in range(len(matrix)):
+          
+            for j in range(len(matrix[0])):
+            
+                new_matrix[j][i] = matrix[i][j]
         
-        print(res)
-        for i in range(M):
-            for j in range(N):
-                res[i][j] = A[j][i]
-        return res
+        
+        return new_matrix
+        
+        
