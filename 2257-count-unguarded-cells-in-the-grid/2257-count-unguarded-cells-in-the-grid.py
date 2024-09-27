@@ -1,66 +1,75 @@
 class Solution:
-    def countUnguarded(self, R: int, C: int, guards: List[List[int]], walls: List[List[int]]) -> int:
-        state = [[0] * C for _ in range(R)]
+    def countUnguarded(self, m: int, n: int, guards: List[List[int]], walls: List[List[int]]) -> int:
         
-        GUARD = 1
-        WALL = 2
-        USED = 3
+        grid = []
+        
+        # grid = [['.'] * n for i in range(m)]
+        
+        for i in range(m):
+            grid.append(['.'] * n)
         
         for x,y in guards:
-            state[x][y] = GUARD
+            grid[x][y] = "G"
         
-        for x, y in walls:
-            state[x][y] = WALL
+        for x,y in walls:
+            grid[x][y] = "W"
+        
+        for i in range(len(grid)):
+            guard = False
             
-        for i in range(R):
-            current = 0
-            for j in range(C):
-                if state[i][j] == GUARD:
-                    current = USED
-                elif state[i][j] == WALL:
-                    current = 0
-                elif state[i][j] == 0:
-                    if current == USED:
-                        state[i][j] = USED
+            for j in range(len(grid[0])):
+                if grid[i][j] == "G":
+                    guard = True
+                
+                elif grid[i][j] == "W":
+                    guard = False
+                elif guard:
+                    grid[i][j] = "X"
+                
         
-        for i in range(R):
-            current = 0
-            for j in range(C - 1, -1, -1):
-                if state[i][j] == GUARD:
-                    current = USED
-                elif state[i][j] == WALL:
-                    current = 0
-                elif state[i][j] == 0:
-                    if current == USED:
-                        state[i][j] = USED
+
+        for i in range(len(grid)-1, -1, -1):
+            guard = False
+            for j in range(len(grid[0])-1, -1, -1):
+                if grid[i][j] == "G":
+                    guard = True
+                elif grid[i][j] == "W":
+                    guard = False
+                elif guard:
+                    grid[i][j] = "X"
         
         
-        for j in range(C):
-            current = 0
-            for i in range(R):
-                if state[i][j] == GUARD:
-                    current = USED
-                elif state[i][j] == WALL:
-                    current = 0
-                elif state[i][j] == 0:
-                    if current == USED:
-                        state[i][j] = USED
+        for i in range(len(grid[0])):
+            guard = False
+            for j in range(len(grid)):
+                if grid[j][i] == "G":
+                    guard = True
+                
+                elif grid[j][i] == "W":
+                    guard = False
+                
+                elif guard:
+                    grid[j][i] = "X"
+                    
+        for i in range(len(grid[0]) - 1, -1, -1):
+            guard = False
+            for j in range(len(grid)-1, -1, -1):
+                if grid[j][i] == "G":
+                    guard = True
+                
+                elif grid[j][i] == "W":
+                    guard = False
+                
+                elif guard:
+                    grid[j][i] = "X"
         
-        for j in range(C):
-            current = 0
-            for i in range(R - 1, -1, -1):
-                if state[i][j] == GUARD:
-                    current = USED
-                elif state[i][j] == WALL:
-                    current = 0
-                elif state[i][j] == 0:
-                    if current == USED:
-                        state[i][j] = USED
-                        
         count = 0
-        for i in range(R):
-            for j in range(C):
-                if state[i][j] == 0:
+        for i in range(len(grid)):
+            for j in range(len(grid[0])):
+                if grid[i][j] == ".":
                     count += 1
+        
         return count
+                
+        
         
