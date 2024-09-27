@@ -18,8 +18,17 @@ class Solution:
                 
                 if board[i][j] == "X":
                     
-                    if (i == 0 or board[i-1][j] != "X") and (j == 0 or board[i][j-1] != "X"):
+                    if i == 0 and j == 0:
                         count += 1
+                    elif i == 0 and j > 0:
+                        if board[i][j-1] == '.':
+                            count += 1
+                    elif i > 0 and j == 0:
+                        if board[i-1][j] == '.':
+                            count += 1
+                    else:
+                        if board[i][j-1] == '.' and board[i-1][j] == '.':
+                            count += 1
                         
             # print(count)
 
