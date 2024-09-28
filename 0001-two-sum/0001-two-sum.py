@@ -1,21 +1,31 @@
 class Solution:
     def twoSum(self, nums: List[int], target: int) -> List[int]:
-        sorted_num = {}
-        for i, x in enumerate(nums):
-            sorted_num[i] = x
+        ''' 
+        [3,2,4]
+        target = 6
         
-        sorted_tuple = sorted(sorted_num.items(), key=lambda x:x[1])
+        [2, 3, 4]   => 6
+         ^
+            ^
+        '''
+        index = {}
+        for i in range(len(nums)):
+            index[i] = nums[i]
         
-        # print(sorted_tuple)
+        sorted_num = sorted(index.items(), key = lambda x:x[1])
+        
+        
         l = 0
-        r = len(nums) - 1
+        r = len(nums)-1
         
         while l < r:
-            if sorted_tuple[l][1] + sorted_tuple[r][1] == target:
-                return [sorted_tuple[l][0],sorted_tuple[r][0]]
-            elif sorted_tuple[l][1] + sorted_tuple[r][1] > target:
+            number = sorted_num[l][1] + sorted_num[r][1]
+            if number == target:
+                return [sorted_num[l][0], sorted_num[r][0]]
+            elif number > target:
                 r -= 1
-            elif sorted_tuple[l][1] + sorted_tuple[r][1] < target:
+            else:
                 l += 1
         
-        return [-1,-1]
+        
+        
