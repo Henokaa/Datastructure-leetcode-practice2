@@ -1,36 +1,34 @@
 class Solution:
     def countBattleships(self, board: List[List[str]]) -> int:
         '''
-        check ert, hor
         
-        o (r * c)
-        o (r * c)
-        '''
+        time - o(2n)
+        space - (n * m)
         
         '''
-        if x
-            check prev (horz, vert), 
-            
-        '''
-        count = 0
+        visited = set()
+        count =0
+        directions = [[0,1], [1,0], [-1,0],[0,-1]]
+        
+        inbound = lambda x, y: 0 <= x < len(board) and 0 <= y < len(board[0])
+        
+        def dfs(i, j):
+            # visited.add((i,j))
+            for x,y in directions:
+                x1 = x + i
+                y1 = y + j
+                
+                if inbound(x1, y1) and board[x1][y1] == "X" and (x1, y1) not in visited:
+                    visited.add((x1, y1))
+                    dfs(x1, y1)
+                    
+                    
+        
         for i in range(len(board)):
             for j in range(len(board[0])):
-                
-                if board[i][j] == "X":
-                    
-                    if i == 0 and j == 0:
-                        count += 1
-                    elif i == 0 and j > 0:
-                        if board[i][j-1] == '.':
-                            count += 1
-                    elif i > 0 and j == 0:
-                        if board[i-1][j] == '.':
-                            count += 1
-                    else:
-                        if board[i][j-1] == '.' and board[i-1][j] == '.':
-                            count += 1
-                        
-            # print(count)
-
+                if (i,j) not in visited and board[i][j] == "X":
+                    dfs(i,j)
+                    count += 1
+                    visited.add((i,j))
+        
         return count
-                    
