@@ -8,24 +8,18 @@ class Solution:
          ^
             ^
         '''
-        index = {}
+        hashmap = {}
         for i in range(len(nums)):
-            index[i] = nums[i]
+            hashmap[nums[i]] = i
+            
+        print(hashmap)
         
-        sorted_num = sorted(index.items(), key = lambda x:x[1])
-        
-        
-        l = 0
-        r = len(nums)-1
-        
-        while l < r:
-            number = sorted_num[l][1] + sorted_num[r][1]
-            if number == target:
-                return [sorted_num[l][0], sorted_num[r][0]]
-            elif number > target:
-                r -= 1
-            else:
-                l += 1
+        for i in range(len(nums)):
+            complement = target - nums[i]
+            if complement in hashmap and hashmap[complement] != i:
+                return [i, hashmap[complement]]
+        # If no valid pair is found, return an empty list
+        return []
         
         
         
