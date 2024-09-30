@@ -2,20 +2,21 @@ class Solution:
     def matrixReshape(self, mat: List[List[int]], r: int, c: int) -> List[List[int]]:
         '''
         
+        num = 3
+        
+        
+        
         '''
-        nums = mat
-        rows = len(nums)
-        cols = len(nums[0])
-
-        if rows * cols != r * c:  # Check if sizes match
-            return nums
-
-        reshaped = [[0] * c for _ in range(r)]  # Initialize reshaped matrix
-        # print("Row", (rows, cols))
-        for i in range(rows):
-            for j in range(cols):
-                index = i * cols + j
-                # print(index,i,j)
-                reshaped[index // c][index % c] = nums[i][j]
-
-        return reshaped
+        grid = [[0] * c for _ in range(r)]
+        row = len(mat)
+        cols = len(mat[0])
+        if r * c != row * cols:
+            return mat
+        
+        
+        for i in range(len(mat)):
+            for j in range(len(mat[0])):
+                item = i * len(mat[0]) + j
+                grid[item // len(grid[0])][item % len(grid[0])] = mat[i][j]
+        
+        return grid
