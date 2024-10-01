@@ -3,32 +3,43 @@ class Solution:
         """
         Do not return anything, modify matrix in-place instead.
         """
-
+        
         l = 0
         r = len(matrix) - 1
         
         while l < r:
             for i in range(r - l):
-                top, bottom  = l, r
+                top = l
+                bottom = r
                 
-                # save the topLeft
-                topLeft = matrix[top][l + i]
+                # pick top right
+                top_right = matrix[top + i][r]
                 
-                # move bottom left into top left
-                matrix[top][l + i] = matrix[bottom - i][l]
+                # put TL -> TR
+                matrix[top + i][r] = matrix[top][l + i]
                 
-                # move bottom right into bottom left
-                matrix[bottom - i][l] = matrix[bottom][r - i]
+                # pick bottom right
+                bottom_right = matrix[bottom][r - i]
                 
-                # move top right into bottom right
-                matrix[bottom][r - i] = matrix[top + i][r]
+                # put TR -> BR
+                matrix[bottom][r - i] = top_right
                 
-                # move top left into top right
-                matrix[top + i][r] = topLeft
+                # pick bottom left
+                bottom_left = matrix[bottom - i][l]
+                
+                # put BR -> BL
+                matrix[bottom - i][l] = bottom_right
+                
+                # pick TL
+                TL = matrix[top][l + i]
+                
+                # put Bottom left -> Top left
+                matrix[top][l + i] = bottom_left
             
-            r -= 1
             l += 1
-        
+            r -= 1
+                
+                
         
         
                 
