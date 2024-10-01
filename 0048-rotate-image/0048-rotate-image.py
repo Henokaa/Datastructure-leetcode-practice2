@@ -3,43 +3,21 @@ class Solution:
         """
         Do not return anything, modify matrix in-place instead.
         """
+        '''
+        Time Complexity: O(N²), where N is the number of rows/columns.
+        Space Complexity: O(1) (in-place solution).     
+        '''
+        n = len(matrix)
+
+        # Step 1: Transpose the matrix (swap matrix[i][j] with matrix[j][i])
+        for i in range(n):
+            for j in range(i, n):
+                matrix[i][j], matrix[j][i] = matrix[j][i], matrix[i][j]
+
+        # Step 2: Reverse each row
+        for i in range(n):
+            matrix[i].reverse()        
         
-        l = 0
-        r = len(matrix) - 1
-        
-        while l < r:
-            for i in range(r - l):
-                top = l
-                bottom = r
-                
-                # pick top right
-                top_right = matrix[top + i][r]
-                
-                # put TL -> TR
-                matrix[top + i][r] = matrix[top][l + i]
-                
-                # pick bottom right
-                bottom_right = matrix[bottom][r - i]
-                
-                # put TR -> BR
-                matrix[bottom][r - i] = top_right
-                
-                # pick bottom left
-                bottom_left = matrix[bottom - i][l]
-                
-                # put BR -> BL
-                matrix[bottom - i][l] = bottom_right
-                
-                # pick TL
-                TL = matrix[top][l + i]
-                
-                # put Bottom left -> Top left
-                matrix[top][l + i] = bottom_left
-            
-            l += 1
-            r -= 1
-                
-                
         
         
                 
