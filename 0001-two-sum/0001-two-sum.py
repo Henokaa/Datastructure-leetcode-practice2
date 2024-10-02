@@ -7,19 +7,26 @@ class Solution:
         [2, 3, 4]   => 6
          ^
             ^
+            
+        [3,2,4]
+        
+        
+        
+        [3, 3]
+        
+        3:1
+        
+        
         '''
         hashmap = {}
+        
         for i in range(len(nums)):
-            hashmap[nums[i]] = i
+            number = target - nums[i]
+            if number in hashmap:
+                return [i, hashmap[number]]
             
-        print(hashmap)
+            hashmap[nums[i]] = i
         
-        for i in range(len(nums)):
-            complement = target - nums[i]
-            if complement in hashmap and hashmap[complement] != i:
-                return [i, hashmap[complement]]
-        # If no valid pair is found, return an empty list
         return []
-        
         
         
