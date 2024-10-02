@@ -5,18 +5,24 @@ class Solution:
         num = 3
         
         
-        
+        Just playing around
         '''
         grid = [[0] * c for _ in range(r)]
-        row = len(mat)
-        cols = len(mat[0])
-        if r * c != row * cols:
+        
+        if r * c != len(mat[0]) * len(mat):
             return mat
         
-        
-        for i in range(len(mat)):
-            for j in range(len(mat[0])):
-                item = i * len(mat[0]) + j
-                grid[item // len(grid[0])][item % len(grid[0])] = mat[i][j]
-        
+        for i in range(r):
+            for j in range(c):
+                number = (i * c) + j # I get this wrong it is (i * c) not i * r
+                
+                
+                row = number // len(mat[0])
+                cols = number % len(mat[0])
+                # print(grid[i][j], (i,j), (row, cols))
+                
+                grid[i][j] = mat[row][cols]
+            
         return grid
+                
+                
