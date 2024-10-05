@@ -1,11 +1,29 @@
 class Solution:
-    @cache
     def myPow(self, x: float, n: int) -> float:
-        if n == 0:
-            return 1
-        elif n == 1:
-            return x
-        elif n == -1:
-            return 1/x
-        return self.myPow(x, n//2) * self.myPow(x, n//2) * self.myPow(x, n%2)
+        '''
+        2 ^ 10
+        
+        2 ^ 5 ) ( 2 ^ 5)
+        2  ^ 10
+        
+        time = logn
+        
+        '''
+        def dfs(n):
+            if n == 0:
+                return 1
+            
+            if n % 2 == 0:
+                temp = dfs(n // 2)
+                return temp * temp
+            
+            else:
+                return x * dfs(n-1)
+            
+        answer = dfs(abs(n))
+        if n < 0:
+            return 1 / answer
+        else:
+            return answer
+        
         
