@@ -25,28 +25,14 @@ class Solution:
         
         
         '''
-        
-        p1 = (len(nums)) - k % len(nums)
-        # print(p1)
-        store_p1 = p1
-        store1 = []
-        while p1 < len(nums):
-            store1.append(nums[p1])
-            p1 += 1
-        
-        # print(store1)
-        
-        p2 = 0
-        store2 = []
-        while p2 < store_p1:
-            store2.append(nums[p2])
-            p2 += 1
-        
-        # print(store2)
-        
-        # for i in range(len(store2)):
-        #     store1.append(store2[i])
-            
+        n = len(nums)
+        k %= n  # Handles cases where k > len(nums)
+
+        # Separate into two lists
+        store1 = nums[n - k:]  # Last k elements
+        store2 = nums[:n - k]  # Elements before the last k elements
+
+        # Combine the lists and write back to `nums` in place
         nums[:] = store1 + store2
         
         
