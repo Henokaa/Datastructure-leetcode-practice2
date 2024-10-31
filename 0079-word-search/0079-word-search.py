@@ -2,36 +2,75 @@ class Solution:
     def exist(self, board: List[List[str]], word: str) -> bool:
         '''
         
+        constraint
+        
+        naive
+        
+        optimal
+        
+        edge case
+
+        [["C","A","A"],
+         ["A","A","A"],
+         ["B","C","D"]]
+         
+        Time - 0 (N * M * 4 ^ len(word))
+        Search pruning
+        count the character board & word
+            check
+        
+        dfs()
+            assigning = "#"
+            
+            for
+            
+            orgina
         '''
-        directions = [[0,1], [1,0], [-1,0], [0,-1]]
-        inbound = lambda x, y: 0 <= x < len(board) and 0 <= y < len(board[0])
-        def dfs(i,j,k):
-            if k == len(word):
+        
+        word_board = defaultdict(int)
+        
+        for i in range(len(board)):
+            for j in range(len(board[0])):
+                word_board[board[i][j]] += 1
+        
+        # print(word_board)
+        
+        word_count = Counter(word)
+        # print(word_count)
+        
+        directions = [[0,1],[1,0],[0,-1],[-1,0]]
+        
+        for char, val in word_count.items():
+            if char in word_board and word_board[char] >= word_count[char]:
+                continue
+            else:
+                return False
+            
+        def dfs(i,j, index):
+            if index == len(word) - 1:
                 return True
             
-            # print(k)
-            node = False
-            for x,y in directions:
-                dr = x + i
-                dc = y + j
-                if inbound(dr,dc) and board[dr][dc] == word[k] and (dr,dc) not in visited:
-                    visited.add((i,j))
-                    node =  dfs(dr,dc,k+1)
-                    if node == True:
-                        return True
-                    visited.remove((i,j))
+            orginal = board[i][j]
+            board[i][j] = "#"
             
+            for x,y in directions:
+                x1 = x + i 
+                y1 = y + j
+                if 0<= x1 < len(board) and 0<= y1 < len(board[0]) and board[x1][y1] == word[index+1]:
+                    node = dfs(x1,y1, index + 1)
+                    if node:
+                        return True
+            
+            board[i][j] = orginal
             return False
-                
+                    
             
         
         for i in range(len(board)):
-            for j in range(len(board[i])):
-                
+            for j in range(len(board[0])):
                 if board[i][j] == word[0]:
-                    visited = set()
-                    visited.add((i,j))
-                    if dfs(i,j, 1):
+                    node = dfs(i,j,0)
+                    if node:
                         return True
-                    
+        
         return False
