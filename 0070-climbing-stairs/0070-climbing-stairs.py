@@ -1,16 +1,25 @@
 class Solution:
     def climbStairs(self, n: int) -> int:
-        @cache
-        def dp(i):
-            temp1 = 0
-            temp2 = 0
-            
-            if i == n:
-                return 1
-            if i + 1 <= n:
-                temp1 = dp(i+1)
-            if i + 2 <= n:
-                temp2 = dp(i+2)
-            return temp1 + temp2
+        '''
+        [2,1,1]
         
-        return dp(0)
+        '''
+        array = [0] * n
+        
+        if n == 1:
+            return 1
+        if n == 2:
+            return 2
+        
+        array[-1] = 1
+        array[-2] = 1
+        p1 = n - 3
+        
+        while 0 <= p1:
+            array[p1] = array[p1+1] + array[p1 + 2]
+            p1 -= 1
+        
+        
+        return array[0] + array[1]
+            
+        
