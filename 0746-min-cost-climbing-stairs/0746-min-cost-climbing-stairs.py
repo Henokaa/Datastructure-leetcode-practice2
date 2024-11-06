@@ -1,43 +1,37 @@
 class Solution:
     def minCostClimbingStairs(self, cost: List[int]) -> int:
         '''
-        costs = [10,15,20]
-        
-        10,15,20, _
-        
         clarrify
         
-            dfs()
-                [pos, cos]
+        
         constraint 
         
+        
         approach 
+            [1,100,1,1,1,100,1,1,100,1]
         
         edgecase
         
+        
         '''
-        answer = float('inf')
-        memo = {}
-        def dfs(i):
-            
-            if i in memo:
-                return memo[i]
-            
-            nonlocal answer
-            if i == len(cost):
-                return 0
-            
-            if i > len(cost):
-                return 0
-            
-            one = cost[i] + dfs(i + 1)
-            two = cost[i] + dfs(i + 2)
-            
-            memo[i] = min(one, two)
-            
-            return memo[i]
         
+        array = [0] * len(cost)
         
+        if len(cost) == 1:
+            return cost[0]
         
+        if len(cost) == 2:
+            return min(cost[0], cost[1])
         
-        return min(dfs(0), dfs(1))
+        array[-1] = cost[-1]
+        array[-2] = cost[-2]
+        
+        p1 = len(cost) - 3
+        
+        while p1 >= 0:
+            cost[p1] = cost[p1] + min(cost[p1 + 1], cost[p1 + 2])
+            # print(array)
+            p1 -= 1
+        
+        return min(cost[0], cost[1])
+        
